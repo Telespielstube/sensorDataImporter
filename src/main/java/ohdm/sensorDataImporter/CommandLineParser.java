@@ -16,7 +16,7 @@ public class CommandLineParser {
 	 * @return command line arguments.
 	 */
 	private static Options createOptions() {
-		Option pathOption = Option.builder("-i").required().hasArg().desc("path to directory.").build();
+		Option pathOption = Option.builder("i").required().hasArg().desc("path to directory.").build();
 		options = new Options();
 		options.addOption(pathOption);
 
@@ -53,7 +53,7 @@ public class CommandLineParser {
 	 */
 	private static void printHelp(String[] commandLineArgs, ParseException ex) {
 		helpFormatter.printHelp("ERROR: Unable to parse command-line arguments\n " + Arrays.toString(commandLineArgs)
-				+ " due to: " + ex + "\nExample: java -jar sensorDataImporter -i 'path to your sensor data folder'",
+				+ " due to: " + ex + "\nExample: java -jar sensorDataImporter.jar -i 'path to your sensor data folder'",
 				options);
 		System.exit(1);
 	}
