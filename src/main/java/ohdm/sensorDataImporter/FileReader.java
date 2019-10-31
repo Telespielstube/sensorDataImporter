@@ -1,5 +1,7 @@
 package ohdm.sensorDataImporter;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,16 +10,21 @@ import java.util.stream.Stream;
 
 public class FileReader {
 	FileParser fileParser = new FileParser();
+	Unzipper unzipper = new Unzipper();
 	private String path = "";
+
 	
 	FileReader(String path) {
 		this.path = path;
 	}
 	
-	public void readFile() throws IOException {
-		try (Stream<Path> paths = Files.walk(Paths.get(path))) {
-		    paths.filter(Files::isRegularFile).forEach(System.out::println);;
-		}
+	public void readFile() {
+		File folder = new File(path); 
+		File[] fileList = folder.listFiles();
+		
+		for (File file : fileList)
+		//	System.out.println(file);
+			unzipper.fileUnzip(file);
 	}
 	
 	
