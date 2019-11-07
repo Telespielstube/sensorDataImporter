@@ -1,16 +1,22 @@
-package ohdm.sensorDataImporter;
+package ohdm.parser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class FileReader {
-	FileParser fileParser = new FileParser();
+public class Reader {
 	
-	public FileReader() {	}
+	private String fileToRead = null;
+	
+	public Reader() {}
+	
+	public Reader(String fileToRead) {
+		this.fileToRead = fileToRead;
+	}
 	
 	/**
-	 * Gets all 
+	 * Gets all files from folder.
+	 * 
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
@@ -22,6 +28,4 @@ public class FileReader {
 		
 		return fileList;
 	}
-	
-	
 }

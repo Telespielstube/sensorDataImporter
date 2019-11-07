@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import org.apache.commons.cli.CommandLine;
 
+import ohdm.parser.*;
+
 public class App 
 {
 	
@@ -12,10 +14,9 @@ public class App
 	
     public static void main( String[] args ) throws FileNotFoundException, IOException 
     {
-    	DataBaseConnector connectDb = new DataBaseConnector("jdbc:postgresql://localhost:5432/postgis_ohdm?user=marta&password=0000");
-    	Unzip unzip = new Unzip();
-    	FileReader fileReader = new FileReader();
-    	FileParser fileParser = new FileParser();
+       	Unzip unzip = new Unzip();
+    	Reader fileReader = new Reader();
+    	Parser fileParser = new Parser();
     	File[] listOfFiles = null;
     	
     	CommandLine cmdLine = CommandLineParser.parse(args);
@@ -25,7 +26,5 @@ public class App
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo);
         fileParser.parseFile(listOfFiles);
-        
-        connectDb.connectToDb();
     }
 }
