@@ -26,6 +26,8 @@ public class Parser {
 			csv = new BufferedReader(new FileReader(f));
 			while ((row = csv.readLine()) != null) {
 				values = row.split(delimiter);
+				System.out.println(values[7]);
+				
 			}
 		}
 	}
