@@ -1,19 +1,32 @@
 package ohdm.sensorDataImporter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
-
-import org.apache.commons.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import net.lingala.zip4j.core.ZipFile;
 
 public class FileParser {
 
-	public void parseFile() {
-		Reader csvFile = new FileReader(null);
-		Iterable<CSVRecord> records = CSVFormat.RFC4180.parse(csvFile);
+	public FileParser() {}
+	private String fileToParse = "";
+	
+	/**
+	 * 
+	 * @param file
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public void parseFile(File[] listOfFiles) throws FileNotFoundException, IOException {
+		
+		Reader input = new FileReader(fileToParse);
+		Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(input);
 		for (CSVRecord record : records) {
-		    String columnOne = record.get(0);
-		    String columnTwo = record.get(1);
+		   System.out.println(record.get("id"));
 		}
-	}
+
+	} 
 }

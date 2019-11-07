@@ -1,30 +1,26 @@
 package ohdm.sensorDataImporter;
 
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
 
 public class FileReader {
 	FileParser fileParser = new FileParser();
-	Unzipper unzipper = new Unzipper();
-	private String path = "";
-
 	
-	FileReader(String path) {
-		this.path = path;
-	}
+	public FileReader() {	}
 	
-	public void readFile() {
+	/**
+	 * Gets all 
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public File[] readFile(String path) throws FileNotFoundException, IOException {
+		System.out.println("Reading all files...");
 		File folder = new File(path); 
 		File[] fileList = folder.listFiles();
+		System.out.println("Done");
 		
-		for (File file : fileList)
-		//	System.out.println(file);
-			unzipper.fileUnzip(file);
+		return fileList;
 	}
 	
 	
