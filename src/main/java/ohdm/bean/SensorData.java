@@ -12,13 +12,17 @@ import javax.persistence.Table;
 public class SensorData {
 	
 	private int id;
+	private float pm25;
+	private float pm10;
 	private float temperature;
 	private float humidity;
 	
 	public SensorData() { }
 	
-	public SensorData(int id, float temperature, float humidity) {
+	public SensorData(int id, float pm25, float pm10, float temperature, float humidity) {
 		this.id = id;
+		this.pm25 = pm25;
+		this.pm10 = pm10;
 		this.temperature = temperature;
 		this.humidity = humidity;
 	}
