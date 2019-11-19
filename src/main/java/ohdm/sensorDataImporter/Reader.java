@@ -1,4 +1,4 @@
-package ohdm.parser;
+package ohdm.sensorDataImporter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
