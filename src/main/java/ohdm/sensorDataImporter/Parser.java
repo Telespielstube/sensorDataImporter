@@ -26,7 +26,14 @@ public class Parser {
 			csv = new BufferedReader(new FileReader(f));
 			while ((row = csv.readLine()) != null) {
 				values = row.split(delimiter);
-				System.out.println(values[7]);
+				System.out.println(values[0] + "    " 
+								+ values[1] + "    " 
+								+ values[2] + "    " 
+								+ values[3] + "    " 
+								+ values[4] + "    " 
+								+ values[5] + "    " 
+								+ values[6] + "    " 
+								+ values[7]);
 				
 			}
 		}

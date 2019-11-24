@@ -1,7 +1,5 @@
 package ohdm.storage;
 
-import java.util.Optional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
@@ -36,10 +34,4 @@ public class SensorDataDbDao implements Dao<SensorData> {
 			em.close();
 		}
 	}
-	
-	public Optional<SensorData> getData(int id) {
-		EntityManager em = emf.getEntityManager();
-		return Optional.ofNullable(em.find(SensorData.class, id));
-	}
-
 }

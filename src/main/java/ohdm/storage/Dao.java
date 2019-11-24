@@ -1,7 +1,5 @@
 package ohdm.storage;
 
-import java.util.Optional;
-
 
 public interface Dao<T> {
 
@@ -10,6 +8,4 @@ public interface Dao<T> {
 	 * @param sensorData	measured data of sensor.
 	 */
 	public void saveData(T t);
-	
-	public Optional<T> getData(int id);
 }
