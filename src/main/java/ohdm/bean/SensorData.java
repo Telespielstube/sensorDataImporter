@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name= "sensor_data")
 public class SensorData {
-	
+
 	private int id;
 	private float temperature;
 	private float humidity;
