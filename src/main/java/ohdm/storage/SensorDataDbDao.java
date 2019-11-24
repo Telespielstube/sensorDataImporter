@@ -7,7 +7,7 @@ import javax.persistence.PersistenceException;
 
 import ohdm.bean.SensorData;
 
-public class SensorDataDbDao implements SensorDataDao {
+public class SensorDataDbDao implements Dao<SensorData> {
 
 	private EMFWrapper emf;
 
@@ -19,7 +19,8 @@ public class SensorDataDbDao implements SensorDataDao {
 		this.emf = emf;
 	} 
 	
-	public void addNewSensorData(SensorData sensorData) {
+
+	public void saveData(SensorData sensorData) {
 		EntityManager em = emf.getEntityManager();
 		EntityTransaction transaction = em.getTransaction();
 		
@@ -33,5 +34,4 @@ public class SensorDataDbDao implements SensorDataDao {
 			em.close();
 		}
 	}
-
 }
