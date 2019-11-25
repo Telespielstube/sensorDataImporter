@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -26,11 +27,12 @@ import ohdm.storage.DBSensorData;
 public class App 
 {
 	
-	private static String extractTo = "/Users/marta/extractedLuftdatenArchiv/";
+	private static String extractTo = "C:\\test";
 	
     public static void main( String[] args ) throws FileNotFoundException, IOException 
     
     {
+    	ArrayList<SensorData> sensorList = new ArrayList<>();
     	int	rowAffected;
        	Unzip unzip = new Unzip();
     	Reader fileReader = new Reader();
@@ -43,16 +45,20 @@ public class App
 		listOfFiles = fileReader.readFile(path);
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo);
-        fileParser.parseFile(listOfFiles);
+        sensorList = fileParser.parseFile(listOfFiles);
 
     	
     	
     	//   Add Sensordata
-    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
+    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","OHDM4ever!");
     	DBSensorData sensordata = new DBSensorData(db);
     	
     	try {
-			System.out.println(sensordata.addNewSensorData(new SensorData(1, "DHT22", "2016-01-01", 3.6f, 2.5f)));
+    		for (int i = 0; i < sensorList.size(); i++) {
+    			sensordata.addNewSensorData(sensorList.get(i));
+			}
+    		
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

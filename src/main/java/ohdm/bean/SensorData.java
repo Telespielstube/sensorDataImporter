@@ -27,6 +27,14 @@ public class SensorData {
 		this.humidity = humidity;
 	}
 	
+	public SensorData(SensorData s) {
+		this.id = s.id;
+		this.type = s.type;
+		this.timestamp = s.timestamp;
+		this.temperature = s.temperature;
+		this.humidity = s.humidity;
+	}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "sensor_id")
