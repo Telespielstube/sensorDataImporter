@@ -16,7 +16,13 @@ public class DBSensorData {
 	}
 	
 	public int addNewSensorData(SensorData sensordata) throws SQLException {		
-		PreparedStatement statement = db.connection.prepareStatement("INSERT INTO sensor_data.sensor_data (  temperature, humidity) VALUES("+sensordata.getTemperature()+","+sensordata.getHumidity()+")", Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement statement = db.connection.prepareStatement("INSERT INTO sensor_data.sensor_data (  sensor_id, sensor_type, timestamp, temperature, humidity) VALUES("
+																	+sensordata.getSensorId()
+																	+","+sensordata.getSensorType()
+																	+","+sensordata.getTimestamp()
+				 													+","+sensordata.getTemperature()
+				 													+","+sensordata.getHumidity()
+				 													+")", Statement.RETURN_GENERATED_KEYS);
 		statement.executeUpdate();
 		ResultSet resultSet  = statement.getGeneratedKeys();
 		resultSet.next();

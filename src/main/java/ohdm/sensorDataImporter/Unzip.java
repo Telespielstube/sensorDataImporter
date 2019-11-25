@@ -17,6 +17,7 @@ public class Unzip {
 		for (File file : fileList)	
 		try {
 			new ZipFile(file).extractAll(extractTo);
+			System.out.println(file + " Done");
 		} catch (ZipException e) {
 			e.printStackTrace();
 		}

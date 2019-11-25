@@ -1,7 +1,5 @@
 package ohdm.bean;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,21 +13,15 @@ public class SensorData {
 
 	private int id;
 	private String type;
-	private int location;
-	private float latitude;
-	private float longitude;
-	private Date timestamp;
+	private String timestamp;
 	private float temperature;
 	private float humidity;
 	
 	public SensorData() { }
 	
-	public SensorData(int id, String type, int location, float latitude, float longitude, Date timestamp, float temperature, float humidity) {
+	public SensorData(int id, String type, String timestamp, float temperature, float humidity) {
 		this.id = id;
 		this.type = type;
-		this.location = location;
-		this.latitude = latitude;
-		this.longitude = longitude;
 		this.timestamp = timestamp;
 		this.temperature = temperature;
 		this.humidity = humidity;
@@ -38,8 +30,12 @@ public class SensorData {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "sensor_id")
-	public Integer getSensorId() {
+	public int getSensorId() {
 		return id;
+	}
+	
+	public void setSensorId(int sensorId) {
+		this.id = sensorId;
 	}
 	
 	@Column(name= "sensor_type")
@@ -50,31 +46,13 @@ public class SensorData {
 	public void setSensorType(String sensorType) {
 		this.type = sensorType;
 	}
-	
-	@Column(name= "location")
-	public int getLocation() {
-		return location;
-	}
-	
-	public void setLocation(int location) {
-		this.location = location;
-	}
-	
-	@Column(name= "latitude")
-	public float getLatitude() {
-		return latitude;
-	}
-	
-	public void setSensorType(float latitude) {
-		this.latitude = latitude;
-	}
-	
+
 	@Column(name= "timestamp")
-	public Date getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
 	
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
 	

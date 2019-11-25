@@ -19,14 +19,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import ohdm.bean.SensorData;
-import ohdm.parser.*;
+import ohdm.sensorDataImporter.*;
 import ohdm.storage.DBConnection;
 import ohdm.storage.DBSensorData;
 
 public class App 
 {
 	
-	private static String extractTo = "/home/martina/extractedLuftdatenArchive";
+	private static String extractTo = "/Users/marta/extractedLuftdatenArchiv/";
 	
     public static void main( String[] args ) throws FileNotFoundException, IOException 
     
@@ -44,17 +44,18 @@ public class App
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo);
         fileParser.parseFile(listOfFiles);
+
     	
     	
-//    	//   Add Sensordata
-//    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","OHDM4ever!");
-//    	DBSensorData sensordata = new DBSensorData(db);
-//    	
-//    	try {
-//			System.out.println(sensordata.addNewSensorData(new SensorData(1,3.6f,2.5f)));
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	//   Add Sensordata
+    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
+    	DBSensorData sensordata = new DBSensorData(db);
+    	
+    	try {
+			System.out.println(sensordata.addNewSensorData(new SensorData(1, "DHT22", "2016-01-01", 3.6f, 2.5f)));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

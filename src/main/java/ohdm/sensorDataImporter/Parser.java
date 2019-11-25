@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import ohdm.bean.SensorData;
 
 public class Parser {
 
+    SensorData sensorData = new SensorData();
 	public Parser() {}
 	
 	/**
@@ -26,14 +28,11 @@ public class Parser {
 			csv = new BufferedReader(new FileReader(f));
 			while ((row = csv.readLine()) != null) {
 				values = row.split(delimiter);
-				System.out.println(values[0] + "    " 
-								+ values[1] + "    " 
-								+ values[2] + "    " 
-								+ values[3] + "    " 
-								+ values[4] + "    " 
-								+ values[5] + "    " 
-								+ values[6] + "    " 
-								+ values[7]);
+				//sensorData.setSensorId(Integer.valueOf(values[0].trim()));
+				sensorData.setSensorType(values[1]);
+				sensorData.setTimestamp(values[5]);
+				sensorData.setTemperature(Float.parseFloat(values[6]));
+				sensorData.setHumidity(Float.valueOf(values[7]));
 				
 			}
 		}
