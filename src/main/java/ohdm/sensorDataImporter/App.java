@@ -19,7 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import ohdm.bean.SensorData;
+import ohdm.bean.SensorType;
 import ohdm.sensorDataImporter.*;
 import ohdm.storage.DBConnection;
 import ohdm.storage.DBSensorData;
@@ -27,12 +27,13 @@ import ohdm.storage.DBSensorData;
 public class App 
 {
 	
-	private static String extractTo = "C:\\test";
-	
+	//private static String extractTo = "C:\\test";
+	private static String extractTo = "/Users/marta/extractedLuftdaten";
+    
     public static void main( String[] args ) throws FileNotFoundException, IOException 
     
     {
-    	ArrayList<SensorData> sensorList = new ArrayList<>();
+    	ArrayList<ParsedData> dataList = new ArrayList<>();
     	int	rowAffected;
        	Unzip unzip = new Unzip();
     	Reader fileReader = new Reader();
@@ -45,23 +46,26 @@ public class App
 		listOfFiles = fileReader.readFile(path);
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo);
-        sensorList = fileParser.parseFile(listOfFiles);
-
-    	
-    	
+        dataList = fileParser.parseFile(listOfFiles);
+        for (int i = 0; i < dataList.size(); ++i) {
+            System.out.println(dataList.get(i).getSensorId() +  " " + dataList.get(i).getSensorType());
+            
+        }
+        
     	//   Add Sensordata
-    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","OHDM4ever!");
+    	//DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","OHDM4ever!");
+    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
     	DBSensorData sensordata = new DBSensorData(db);
     	
-    	try {
-    		for (int i = 0; i < sensorList.size(); i++) {
-    			sensordata.addNewSensorData(sensorList.get(i));
-			}
-    		
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	try {
+//    		for (int i = 0; i < sensorList.size(); i++) {
+//    			sensordata.addNewSensorData(sensorList.get(i));
+//			}
+//    		
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     }
 }

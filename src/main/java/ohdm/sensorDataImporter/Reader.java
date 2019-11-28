@@ -6,13 +6,7 @@ import java.io.IOException;
 
 public class Reader {
 	
-	private String fileToRead = null;
-	
 	public Reader() {}
-	
-	public Reader(String fileToRead) {
-		this.fileToRead = fileToRead;
-	}
 	
 	/**
 	 * Gets all files from folder.

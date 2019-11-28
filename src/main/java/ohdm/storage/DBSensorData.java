@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ohdm.bean.SensorData;
+import ohdm.bean.SensorType;
 
 public class DBSensorData {
 	
@@ -15,19 +15,19 @@ public class DBSensorData {
 		this.db = db;
 	}
 	
-	public int addNewSensorData(SensorData sensordata) throws SQLException {		
-		PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.sensor_data ( type, timestamp, temperature, humidity) VALUES("
-																	
-																	+"'"+sensordata.getSensorType()
-																	+"','"+sensordata.getTimestamp()
-				 													+"',"+sensordata.getTemperature()
-				 													+","+sensordata.getHumidity()
-				 													+")", Statement.RETURN_GENERATED_KEYS);
-		statement.executeUpdate();
-		ResultSet resultSet  = statement.getGeneratedKeys();
-		resultSet.next();
-		return resultSet.getInt("id");
-       
-	}
+//	public int addNewSensorData(SensorType sensordata) throws SQLException {		
+//	    PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.sensor_data ( type, timestamp, temperature, humidity) VALUES("
+//																	
+//																	+"'"+sensordata.getSensorType()
+//																	+"','"+sensordata.getTimestamp()
+//				 													+"',"+sensordata.getTemperature()
+//				 													+","+sensordata.getHumidity()
+//				 													+")", Statement.RETURN_GENERATED_KEYS);
+//		statement.executeUpdate();
+//		ResultSet resultSet  = statement.getGeneratedKeys();
+//		resultSet.next();
+//		return resultSet.getInt("id");
+//       
+//	}
 
 }

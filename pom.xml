@@ -11,18 +11,22 @@
 	<name>sensorDataImporter</name>
 	<url>http://maven.apache.org</url>
 
+
 	<properties>
-	
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<postgres.version>42.1.1</postgres.version>
+		<pg-embedded.version>0.7.1</pg-embedded.version>
+
 	</properties>
-	
-	
+
 	<dependencies>
 		<!-- JUnit dependency -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -33,6 +37,13 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		
 		<!-- Zip4j dependency -->
 		<dependency>
 			<groupId>net.lingala.zip4j</groupId>
@@ -41,19 +52,19 @@
 		</dependency>
 
 		<!-- JPA dependency -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.0.0.Final</version>
-        </dependency>    
-	  
-        <!-- Postgres dependency --> 
-        <dependency>
-    		<groupId>org.postgresql</groupId>
-    		<artifactId>postgresql</artifactId>
-    		<version>42.2.8</version>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.0.Final</version>
 		</dependency>
-		
+
+		<!-- Postgres dependency -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.8</version>
+		</dependency>
+
 		<!-- Test data base for postgres -->
 		<dependency>
 			<groupId>com.opentable.components</groupId>
