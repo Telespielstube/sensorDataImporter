@@ -15,7 +15,7 @@ import ohdm.bean.SensorType;
 import ohdm.sensorDataImporter.*;
 
 public class AppTest {
-
+/*
     String zipFilePath;
     String extractTo;
 
@@ -62,5 +62,5 @@ public class AppTest {
     public void cleanUp() throws IOException {
         File file = new File(extractTo);
         FileUtils.cleanDirectory(file);
-    }
-}
+    } */
+} 

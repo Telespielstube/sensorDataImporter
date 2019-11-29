@@ -15,10 +15,12 @@ public class TemperatureData {
     private int id;
     private float temperature;
     private float humidity;
+    
+    @ManyToOne
+    @JoinColumn(name="sensor_id")
     SensorType sensorType;
     
     public TemperatureData() {}
-    
     
     public TemperatureData(int id, float temperature, float humidity) {
         this.id = id;
@@ -27,8 +29,6 @@ public class TemperatureData {
     }
     
     @Id
-    @ManyToOne
-    @JoinColumn(name = "sensor_id")
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "temperature_id")
     public int getId() {

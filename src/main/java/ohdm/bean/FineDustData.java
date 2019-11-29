@@ -21,6 +21,10 @@ public class FineDustData {
     private float ratioPm25;
     private float pm0; // ultra fine dust particulate matter <0,1 μm 
     
+    @ManyToOne
+    @JoinColumn(name="sensor_id")
+    SensorType sensorType;
+    
     public FineDustData() {}
     
     public FineDustData(int id, float pm10, float durPm10, float ratioPm10, float pm25, float durPm25, float ratioPm25, float pm0) {
@@ -35,10 +39,8 @@ public class FineDustData {
     }
     
     @Id
-    @ManyToOne
-    @JoinColumn(name = "fine_dust_id")
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "data_id")
+    @Column(name = "fine_dust_id")
     public int getId() {
         return id;
     }

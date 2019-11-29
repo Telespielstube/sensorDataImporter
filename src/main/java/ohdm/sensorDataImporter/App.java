@@ -30,7 +30,7 @@ public class App
 	//private static String extractTo = "C:\\test";
 	private static String extractTo = "/Users/marta/extractedLuftdaten";
     
-    public static void main( String[] args ) throws FileNotFoundException, IOException 
+    public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException 
     
     {
     	ArrayList<ParsedData> dataList = new ArrayList<>();
@@ -47,15 +47,25 @@ public class App
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo);
         dataList = fileParser.parseFile(listOfFiles);
-        for (int i = 0; i < dataList.size(); ++i) {
-            System.out.println(dataList.get(i).getSensorId() +  " " + dataList.get(i).getSensorType());
-            
-        }
         
+        DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
+        DBSensorData sensordata = new DBSensorData(db);
+        
+        for (int i = 0; i < dataList.size(); ++i) {
+            if(dataList.get(i).getSensorType().contains("DHT")) {
+                System.out.println(dataList.get(i).getSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
+                //      sensordata.addNewSensorData(dataList.get(i));
+            }
+            if(dataList.get(i).getSensorType().contains("PPD")) {
+                System.out.println(dataList.get(i).getSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
+                //     sensorData.addNewSensorData(dataList.get(i));
+            }
+
+        }
+
     	//   Add Sensordata
     	//DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","OHDM4ever!");
-    	DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
-    	DBSensorData sensordata = new DBSensorData(db);
+    	
     	
 //    	try {
 //    		for (int i = 0; i < sensorList.size(); i++) {

@@ -2,6 +2,7 @@ package ohdm.sensorDataImporter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 
 public class Reader {
@@ -17,7 +18,7 @@ public class Reader {
 	public File[] readFile(String path) throws FileNotFoundException, IOException {
 		System.out.println("Reading all files...");
 		File folder = new File(path); 
-		File[] fileList = folder.listFiles();
+        File[] fileList = folder.listFiles(); 
 		System.out.println("Done");
 		
 		return fileList;
