@@ -2,7 +2,7 @@ package ohdm.sensorDataImporter;
 
 public class ParsedData {
 
-    private int sensorId;
+    private int importedSensorId;
     private String sensorType;
     private int location;
     private float latitude;
@@ -19,7 +19,7 @@ public class ParsedData {
     public ParsedData() { }
     
     public ParsedData(ParsedData p) {
-        this.sensorId = p.sensorId;
+        this.importedSensorId = p.importedSensorId;
         this.sensorType = p.sensorType;
         this.location = p.location;
         this.latitude = p.latitude;
@@ -33,11 +33,11 @@ public class ParsedData {
         this.value6 = p.value6;
         this.value7 = p.value7;
     }
-    public int getSensorId() {
+    public int getImportedSensorId() {
         return sensorId;
     }
     
-    public void setSensorId(int sensorId) {
+    public void setImportedSensorId(int sensorId) {
         this.sensorId = sensorId;
     }
 
