@@ -34,11 +34,11 @@ public class ParsedData {
         this.value7 = p.value7;
     }
     public int getImportedSensorId() {
-        return sensorId;
+        return importedSensorId;
     }
     
     public void setImportedSensorId(int sensorId) {
-        this.sensorId = sensorId;
+        this.importedSensorId = sensorId;
     }
 
     public String getSensorType() {

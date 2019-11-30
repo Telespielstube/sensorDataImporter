@@ -53,11 +53,13 @@ public class App
         
         for (int i = 0; i < dataList.size(); ++i) {
             if(dataList.get(i).getSensorType().contains("DHT")) {
-                System.out.println(dataList.get(i).getSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
-                //      sensordata.addNewSensorData(dataList.get(i));
+                System.out.println(dataList.get(i).getImportedSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
+                int foreignKeySensorId = sensordata.addNewSensorType(dataList.get(i));    
+                sensordata.addNewSensorData(dataList.get(i), foreignKeySensorId);
+                  
             }
             if(dataList.get(i).getSensorType().contains("PPD")) {
-                System.out.println(dataList.get(i).getSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
+                System.out.println(dataList.get(i).getImportedSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
                 //     sensorData.addNewSensorData(dataList.get(i));
             }
 
