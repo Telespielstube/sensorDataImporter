@@ -14,11 +14,11 @@ public class DBSensorData {
 		this.db = db;
 	}
 	
-	
-	// Adds sensor type to sensor_type table.
-	public int addNewSensorType(ParsedData sensorType) throws SQLException {
-	    PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.sensor_data (type) VALUES("
-	            + sensorType.getSensorId() + "'" + sensorType.getSensorType() +"')", Statement.RETURN_GENERATED_KEYS);
+	// getSensorId() = column imported_id
+	// Adds sensor type to sensor_type table. 
+	public int addNewSensorType(ParsedData parsedData) throws SQLException {
+	    PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.sensor_type (imported_id, type) VALUES("
+	            + parsedData.getSensorId() + "'" + parsedData.getSensorType() +"')", Statement.RETURN_GENERATED_KEYS);
         statement.executeUpdate();
         ResultSet resultSet  = statement.getGeneratedKeys();
         resultSet.next();

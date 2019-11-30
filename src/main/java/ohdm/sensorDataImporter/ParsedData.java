@@ -40,7 +40,7 @@ public class ParsedData {
     public void setSensorId(int sensorId) {
         this.sensorId = sensorId;
     }
-    
+
     public String getSensorType() {
         return sensorType;
     }

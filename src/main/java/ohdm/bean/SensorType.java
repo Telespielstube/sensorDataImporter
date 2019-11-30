@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "sensor_type")
 public class SensorType {
     private int id;
-    private int importedId;
+    private int importedId; // sensor_id csv files
     private String type;
     
     @OneToMany(mappedBy="sensor_type", cascade=CascadeType.PERSIST)
@@ -39,7 +39,8 @@ public class SensorType {
     }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)  
+    @GeneratedValue(strategy=GenerationType.IDENTITY) 
+    @Column(name="sensor_id")
 	public int getSensorId() {
 		return id;
 	}

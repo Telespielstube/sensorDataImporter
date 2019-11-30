@@ -18,7 +18,14 @@ public class Reader {
 	public File[] readFile(String path) throws FileNotFoundException, IOException {
 		System.out.println("Reading all files...");
 		File folder = new File(path); 
-        File[] fileList = folder.listFiles(); 
+        File[] fileList = folder.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                // TODO Auto-generated method stub
+                return name.endsWith(".csv");
+            }
+            
+        }); 
 		System.out.println("Done");
 		
 		return fileList;
