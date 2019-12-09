@@ -59,7 +59,7 @@ public class Parser {
 	
 	public void parseDHTData(String[] values, ParsedData parsedData) {
 	    if (values.length == 8 ) {
-	        parsedData.setSensorId(Integer.valueOf(values[0]));
+	        parsedData.setImportedSensorId(Integer.valueOf(values[0]));
 	        parsedData.setSensorType(values[1]);
 	        parsedData.setLocation(Integer.valueOf(values[2]));
 	        parsedData.setLatitude(Float.valueOf(values[3]));
@@ -72,7 +72,7 @@ public class Parser {
     }
 
     public void parsePPDData(String[] values, ParsedData parsedData) {
-        parsedData.setSensorId(Integer.valueOf(values[0]));
+        parsedData.setImportedSensorId(Integer.valueOf(values[0]));
         parsedData.setSensorType(values[1]);
         parsedData.setLocation(Integer.valueOf(values[2]));
         parsedData.setLatitude(Float.valueOf(values[3]));

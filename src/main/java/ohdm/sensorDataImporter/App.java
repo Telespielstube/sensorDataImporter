@@ -27,8 +27,8 @@ import ohdm.storage.DBSensorData;
 public class App 
 {
 	
-	//private static String extractTo = "C:\\test";
-	private static String extractTo = "/Users/marta/extractedLuftdaten";
+	private static String extractTo = "C:\\test";
+	//private static String extractTo = "/Users/marta/extractedLuftdaten";
     
     public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException 
     
@@ -43,12 +43,13 @@ public class App
     	CommandLine cmdLine = CommandLineParser.parse(args);
     	String path = cmdLine.getOptionValue("i");
     	
-		listOfFiles = fileReader.readFile(path);
+		listOfFiles = fileReader.readFile(path, ".zip");
         unzip.fileUnzip(listOfFiles, extractTo);
-        listOfFiles = fileReader.readFile(extractTo);
+        listOfFiles = fileReader.readFile(extractTo, ".csv");
         dataList = fileParser.parseFile(listOfFiles);
         
-        DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
+        //DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta","0000");
+        DBConnection db = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "postgres","Wiesel4ever!");
         DBSensorData sensordata = new DBSensorData(db);
         
         for (int i = 0; i < dataList.size(); ++i) {

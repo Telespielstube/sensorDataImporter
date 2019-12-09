@@ -13,13 +13,17 @@ public class Unzip {
 	 * @param paths
 	 */
 	public void fileUnzip(File[] fileList, String extractTo) {
+		int i = 0;
 		System.out.println("Unzipping all files...");
-		for (File file : fileList)	
+		for (File file : fileList)	{
+			System.out.println(i);
+			i++;
 		try {
 			new ZipFile(file).extractAll(extractTo);
 			System.out.println(file + " Done");
 		} catch (ZipException e) {
 			e.printStackTrace();
+		}
 		}
 		System.out.println("Done");
 	}

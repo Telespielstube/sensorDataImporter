@@ -15,14 +15,14 @@ public class Reader {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public File[] readFile(String path) throws FileNotFoundException, IOException {
+	public File[] readFile(String path, String type) throws FileNotFoundException, IOException {
 		System.out.println("Reading all files...");
 		File folder = new File(path); 
         File[] fileList = folder.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
                 // TODO Auto-generated method stub
-                return name.endsWith(".csv");
+                return name.endsWith(type);
             }
             
         }); 

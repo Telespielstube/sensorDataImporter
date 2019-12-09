@@ -18,15 +18,20 @@ public class DBSensorData {
 	
 	// checks if id is already inserted into table.
 	public boolean checkIfIdIsInDatabase(ResultSet resultSet, int importedSensorId) throws SQLException {
-	    PreparedStatement statement = db.connection.prepareStatement("IF EXISTS (SELECT imported_id FROM ohdm.sensor_type WHERE imported_id = $importedSensorId;)");
+	    PreparedStatement statement = db.connection.prepareStatement("SELECT imported_id FROM ohdm.sensor_type WHERE imported_id = "+importedSensorId+";");
 	    statement.executeQuery();
-	    return resultSet.getBoolean("imported_id");
+	    if (resultSet.getFetchSize() > 0)
+	    	return true;
+	    else 
+	    	return false;
 	}
 
 	// Adds sensor type to sensor_type table. 
 	public int addNewSensorType(ParsedData parsedData) throws SQLException {
 	    ResultSet resultSet = null;
 	    if (checkIfIdIsInDatabase(resultSet, parsedData.getImportedSensorId())) {
+	    	System.out.println("INSERT INTO ohdm.sensor_type (imported_id, type) VALUES("
+	                + parsedData.getImportedSensorId() + "'" + parsedData.getSensorType() +"' + )");
 	        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.sensor_type (imported_id, type) VALUES("
 	                + parsedData.getImportedSensorId() + "'" + parsedData.getSensorType() +"' + )", Statement.RETURN_GENERATED_KEYS);
 	        statement.executeUpdate();
