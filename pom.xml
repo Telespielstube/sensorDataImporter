@@ -13,6 +13,7 @@
 
 
 	<properties>
+	
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,6 +23,7 @@
 	</properties>
 
 	<dependencies>
+	
 		<!-- JUnit dependency -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -43,7 +45,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
 		</dependency>
-		
+
 		<!-- Zip4j dependency -->
 		<dependency>
 			<groupId>net.lingala.zip4j</groupId>
@@ -70,7 +72,8 @@
 			<groupId>com.opentable.components</groupId>
 			<artifactId>otj-pg-embedded</artifactId>
 			<version>0.13.3</version>
-			<scope>test</scope>
+			<scope>test</scope>		
 		</dependency>
+		
 	</dependencies>
 </project>

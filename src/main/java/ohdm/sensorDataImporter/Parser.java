@@ -7,10 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Parser {
-
-	
-    
+public class Parser {  
     ArrayList<ParsedData> parsedDataList = new ArrayList<>();
 	public Parser() {}
 	
@@ -26,7 +23,7 @@ public class Parser {
 		String row = null;
 		BufferedReader csv = null;
 		String[] values = null;
-		// int i =0;
+		
 		for (File file : listOfFiles) {
 			try {
 			    if (file.getName().endsWith(".csv")) {
@@ -42,42 +39,36 @@ public class Parser {
                     values = row.split(delimiter);
                 	if (values[0].equals("sensor_id")) 
                 	    continue;
-                    ParsedData parsedData = new ParsedData();
+                	// Builder pattern
+                    ParsedData parsedData = new ParsedData.Builder(
+                            Integer.valueOf(values[0]), 
+                            values[1], 
+                            Integer.valueOf(values[2]), 
+                            Float.valueOf(values[3]), 
+                            Float.valueOf(values[4]), 
+                            values[5]).build();
                 	if (values[1].contains("DHT")) {
-                	    parseDHTData(values, parsedData);
+                	    parseDhtData(values, parsedData);
                 	} else if (values[1].contains("PPD")) {
-                	    parsePPDData(values, parsedData);
+                	    parsePpdData(values, parsedData);
                 	}
                 }
             } catch (NumberFormatException | IOException e) {
                 System.err.println("Something went wrong while reading/writing data.");
             }
-		//	i++;
 		}	
 		return parsedDataList;
 	}
 	
-	public void parseDHTData(String[] values, ParsedData parsedData) {
+	public void parseDhtData(String[] values, ParsedData parsedData) {
 	    if (values.length == 8 ) {
-	        parsedData.setImportedSensorId(Integer.valueOf(values[0]));
-	        parsedData.setSensorType(values[1]);
-	        parsedData.setLocation(Integer.valueOf(values[2]));
-	        parsedData.setLatitude(Float.valueOf(values[3]));
-	        parsedData.setLongitude(Float.valueOf(values[4]));
-	        parsedData.setTimestamp(values[5]);
 	        parsedData.setValue1(Float.valueOf(values[6]));
 	        parsedData.setValue2(Float.valueOf(values[7]));
 	        parsedDataList.add(parsedData);
 	    }
     }
 
-    public void parsePPDData(String[] values, ParsedData parsedData) {
-        parsedData.setImportedSensorId(Integer.valueOf(values[0]));
-        parsedData.setSensorType(values[1]);
-        parsedData.setLocation(Integer.valueOf(values[2]));
-        parsedData.setLatitude(Float.valueOf(values[3]));
-        parsedData.setLongitude(Float.valueOf(values[4]));
-        parsedData.setTimestamp(values[5]);
+    public void parsePpdData(String[] values, ParsedData parsedData) {
         parsedData.setValue1(Float.valueOf(values[6]));
         parsedData.setValue2(Float.valueOf(values[7]));
         parsedData.setValue4(Float.valueOf(values[8]));

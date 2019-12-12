@@ -15,7 +15,7 @@ public class Reader {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public File[] readFile(String path, String type) throws FileNotFoundException, IOException {
+	public File[] readFile(String path, final String type) throws FileNotFoundException, IOException {
 		System.out.println("Reading all files...");
 		File folder = new File(path); 
         File[] fileList = folder.listFiles(new FilenameFilter() {

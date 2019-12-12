@@ -15,7 +15,7 @@ import ohdm.bean.SensorType;
 import ohdm.sensorDataImporter.*;
 
 public class AppTest {
-/*
+
     String zipFilePath;
     String extractTo;
 
@@ -28,7 +28,7 @@ public class AppTest {
     @Test
     public void testIfAllFilesInFolderGetRead() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
-        File[] files = reader.readFile(zipFilePath);
+        File[] files = reader.readFile(zipFilePath, ".zip");
         Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/2016-01_dht22.zip"), files[0]);
         Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/2015-11_ppd42ns.zip"), files[1]);
     }
@@ -45,7 +45,7 @@ public class AppTest {
     @Test 
     public void testIfNonExistingFilesReturnAnError() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
-        File[] files = reader.readFile(extractTo);   
+        File[] files = reader.readFile(extractTo, ".csv");   
         Assert.assertTrue(files.length == 0);
     }
     
@@ -54,7 +54,7 @@ public class AppTest {
         File file = new File(extractTo);
         File[] files = file.listFiles();
         Parser fileParser = new Parser();
-        ArrayList<SensorType> parsedFile = fileParser.parseFile(files);
+        ArrayList<ParsedData> parsedFile = fileParser.parseFile(files);
         Assert.assertTrue(parsedFile.toString(), true);
     }
     
@@ -62,5 +62,5 @@ public class AppTest {
     public void cleanUp() throws IOException {
         File file = new File(extractTo);
         FileUtils.cleanDirectory(file);
-    } */
+    } 
 } 
