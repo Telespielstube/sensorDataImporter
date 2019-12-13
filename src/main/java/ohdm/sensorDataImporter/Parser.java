@@ -37,24 +37,26 @@ public class Parser {
 			try {
                 while ((row = csv.readLine()) != null) {	
                     values = row.split(delimiter);
-                	if (values[0].equals("sensor_id")) 
+                	if (values[0].equals("sensor_id") || values[3].isBlank() || values[4].isBlank() || values[5].isBlank()) {
                 	    continue;
-                	// Builder pattern
-                    ParsedData parsedData = new ParsedData.Builder(
-                            Integer.valueOf(values[0]), 
+                	} 
+                    ParsedData parsedData = new ParsedData(Integer.valueOf(values[0]), 
                             values[1], 
                             Integer.valueOf(values[2]), 
                             Float.valueOf(values[3]), 
                             Float.valueOf(values[4]), 
-                            values[5]).build();
+                            values[5]);
                 	if (values[1].contains("DHT")) {
                 	    parseDhtData(values, parsedData);
                 	} else if (values[1].contains("PPD")) {
                 	    parsePpdData(values, parsedData);
                 	}
                 }
-            } catch (NumberFormatException | IOException e) {
-                System.err.println("Something went wrong while reading/writing data.");
+            } catch (IOException e) {
+                System.err.println("Something went wrong while reading/writing data.");  
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
 		}	
 		return parsedDataList;

@@ -15,82 +15,15 @@ public class ParsedData {
     private float value6;
     private float value7;
 
-    public static class Builder {
-        // required data for all sensors
-        private int importedSensorId;
-        private String sensorType;
-        private int location;
-        private float latitude;
-        private float longitude;
-        private String timestamp;
-        // optional values depending on sensor
-        private float value1;
-        private float value2;
-        private float value3;
-        private float value4;
-        private float value5;
-        private float value6;
-        private float value7;
-
-        public Builder(int importedSensorId, String sensorType, int location, float latitude, float longitude, String timestamp) {
-            this.importedSensorId = importedSensorId;
-            this.sensorType = sensorType;
-            this.location = location;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.timestamp = timestamp;
-        }
-
-        public Builder value1(float value1) {
-            this.value1 = value1;
-            return this;
-        }
-
-        public Builder value2(float value2) {
-            this.value2 = value2;
-            return this;
-        }
-
-        public Builder value3(float value3) {
-            this.value3 = value3;
-            return this;
-        }
-
-        public Builder value4(float value4) {
-            this.value4 = value4;
-            return this;
-        }
-
-        public Builder value5(float value5) {
-            this.value5 = value5;
-            return this;
-        }
-
-        public Builder value6(float value6) {
-            this.value6 = value6;
-            return this;
-        }
-
-        public Builder value7(float value7) {
-            this.value7 = value7;
-            return this;
-        }
-
-        public ParsedData build() {
-            return new ParsedData(this);
-        }
+    public ParsedData(int importedSensorId, String sensorType, int location, float latitude, float longitude, String timestamp) {
+        this.importedSensorId = importedSensorId;
+        this.sensorType = sensorType;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timestamp = timestamp;
     }
-
-    private ParsedData(Builder builder) {
-        this.importedSensorId = builder.importedSensorId;
-        this.sensorType = builder.sensorType;
-        this.location = builder.location;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.timestamp = builder.timestamp;
-    }
-
-    
+        
     // Getter, setter
     public int getImportedSensorId() {
         return importedSensorId;
@@ -124,6 +57,10 @@ public class ParsedData {
         this.latitude = latitude;
     }
 
+    public float getLongitude() {
+        return longitude;
+    }
+    
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
