@@ -12,9 +12,9 @@ import ohdm.storage.DatabaseManager;
 
 public class App 
 {
-	
+	// Added new command line option u -> extractTo is not needed anymore
 	//private static String extractTo = "C:\\test";
-	private static String extractTo = "/Users/marta/extractedLuftdaten";
+	//private static String extractTo = "/Users/marta/extractedLuftdaten";
     
     public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException  {
     	ArrayList<ParsedData> dataList = new ArrayList<>();
@@ -26,6 +26,7 @@ public class App
     	
     	CommandLine cmdLine = CommandLineParser.parse(args);
     	String path = cmdLine.getOptionValue("i");
+    	String extractTo = cmdLine.getOptionValue("u");
     	
 		listOfFiles = fileReader.readFile(path, ".zip");
         unzip.fileUnzip(listOfFiles, extractTo);
@@ -34,6 +35,7 @@ public class App
         
         //Database 
         DatabaseManager databaseManager = new DatabaseManager(dataList);
+        databaseManager.createTables();
         databaseManager.selectSensorType();
     }
 }

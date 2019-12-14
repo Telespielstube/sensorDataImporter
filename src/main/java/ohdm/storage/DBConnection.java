@@ -8,6 +8,12 @@ public class DBConnection {
 	
 	public Connection connection;
 	
+	/** Connection constructor which connects application to the ohdm postgis database.
+	 *  
+	 * @param addr         (server) address where the database is located.
+	 * @param username     identifies the user. 
+	 * @param pass         password to authenticate the user. 
+	 */
 	public DBConnection(String addr, String username, String pass) {
 		try {  		 
 			connection = DriverManager.getConnection(addr, username, pass);	

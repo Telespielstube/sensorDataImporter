@@ -8,9 +8,9 @@ public class Unzip {
 	
 	public Unzip() {}
 	
-	/**
+	/** Unzips files to the specified folder.
 	 * 
-	 * @param paths
+	 * @param paths    path to the folder where the data gets unzipped.
 	 */
 	public void fileUnzip(File[] fileList, String extractTo) {
 		int i = 0;

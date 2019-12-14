@@ -10,21 +10,21 @@ public class CommandLineParser {
 	private static HelpFormatter helpFormatter;
 	private static CommandLine cmdLine;
 
-	/**
-	 * Definition of all available command line arguments.
+	/** Definition of all available command line arguments.
 	 * 
 	 * @return command line arguments.
 	 */
 	private static Options createOptions() {
-		Option pathOption = Option.builder("i").required().hasArg().desc("path to directory.").build();
+		Option pathOption1 = Option.builder("i").required().hasArg().desc("path to directory.").build();
+		Option pathOption2 = Option.builder("u").required().hasArg().desc("path where to unzip files.").build();
 		options = new Options();
-		options.addOption(pathOption);
+		options.addOption(pathOption1);
+		options.addOption(pathOption2);
 
 		return options;
 	}
 
-	/**
-	 * Parsing command line arguments.
+	/** Parsing command line arguments.
 	 *  
 	 * @param cmdLineArgs	Command line arguments
 	 * @return
@@ -44,8 +44,7 @@ public class CommandLineParser {
 		}
 	}
 
-	/**
-	 * Prints usage message if something went wrong during parsing.
+	/** Prints usage message if something went wrong during parsing.
 	 * 
 	 * @param commandLineArgs command line arguments
 	 * @param e               Parse Exception
@@ -53,7 +52,7 @@ public class CommandLineParser {
 	 */
 	private static void printHelp(String[] commandLineArgs, ParseException ex) {
 		helpFormatter.printHelp("ERROR: Unable to parse command-line arguments\n " + Arrays.toString(commandLineArgs)
-				+ " due to: " + ex + "\nExample: java -jar sensorDataImporter.jar -i 'path to your sensor data folder'",
+				+ " due to: " + ex + "\nExample: java -jar sensorDataImporter.jar -i 'path to your sensor data folder' -u 'path where to unzip files",
 				options);
 		System.exit(1);
 	}

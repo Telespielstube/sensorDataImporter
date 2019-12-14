@@ -62,6 +62,11 @@ public class Parser {
 		return parsedDataList;
 	}
 	
+	/** Parses the relevant data for the dht sensor.
+	 *  
+	 * @param values       columns for temperature and humidity.
+	 * @param parsedData   Object where the data gets added to.
+	 */
 	public void parseDhtData(String[] values, ParsedData parsedData) {
 	    if (values.length == 8 ) {
 	        parsedData.setValue1(Float.valueOf(values[6]));
@@ -69,7 +74,12 @@ public class Parser {
 	        parsedDataList.add(parsedData);
 	    }
     }
-
+   
+    /** Parses the relevant data for the ppd sensor.
+     *  
+     * @param values       columns for pm10, duration_pm10, ratio_pm10 and pm25, duration_pm25, ratio_pm25.
+     * @param parsedData   Object where the data gets added to.
+     */
     public void parsePpdData(String[] values, ParsedData parsedData) {
         parsedData.setValue1(Float.valueOf(values[6]));
         parsedData.setValue2(Float.valueOf(values[7]));
