@@ -9,11 +9,13 @@ public class DatabaseManager {
     
     private ArrayList<ParsedData> dataList;
     private DBConnection database = new DBConnection("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
+    private DataSourceDb dataSourceDb = new DataSourceDb(database);
     private SensorTypeDb sensorTypeDb = new SensorTypeDb(database);
+    private ClassificationDb classificationDb = new ClassificationDb(database);
     private TemperatureDb tempDb = new TemperatureDb(database);
-    private FineDustDb fineDustDb = new FineDustDb(database);;
+    private FineDustDb fineDustDb = new FineDustDb(database);
     
-    /** Cojnstructor
+    /** Constructor
      * 
      * @param dataList  holds the complete list of parsed data from the csv files.
      */
@@ -38,12 +40,14 @@ public class DatabaseManager {
             if(dataList.get(i).getSensorType().contains("DHT")) {
                 System.out.println(dataList.get(i).getImportedSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
                 int foreignKeySensorId = sensorTypeDb.addSensorType(dataList.get(i));    
-                tempDb.addDhtData(dataList.get(i), foreignKeySensorId);                
+                tempDb.addDhtData(dataList.get(i), foreignKeySensorId); 
+                classificationDb.addClassification();
             }
             if(dataList.get(i).getSensorType().contains("PPD")) {
                 System.out.println(dataList.get(i).getImportedSensorId() + ", " + dataList.get(i).getSensorType() + ", " + dataList.get(i).getValue1() + ", " + dataList.get(i).getValue2());
                 int foreignKeySensorId = sensorTypeDb.addSensorType(dataList.get(i));
                 fineDustDb.addPpdData(dataList.get(i), foreignKeySensorId);
+                classificationDb.addClassification();
             }
         }
     }

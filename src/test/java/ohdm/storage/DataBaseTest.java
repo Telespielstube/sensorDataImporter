@@ -22,9 +22,9 @@ import ohdm.sensorDataImporter.ParsedData;
 
 public class DataBaseTest {
 
-    private ParsedData sensorType1 = new ParsedData.Builder(1, "DHT", 19, (float) 48.13, (float) 90.78, "12:45:45").build();
-    private ParsedData sensorType2 = new ParsedData.Builder(1, "DHT", 19, (float) 48.00, (float) 80.78, "12:05:22").build();
-    private ParsedData sensorTxype3 = new ParsedData.Builder(1, "PPD", 19, (float) 44.10, (float) 30.78, "12:35:15").build();
+//    private ParsedData sensorType1 = new ParsedData(1, "DHT", 19, (float) 48.13, (float) 90.78, "12:45:45");
+ //   private ParsedData sensorType2 = new ParsedData(2, "DHT", 19, (float) 48.00, (float) 80.78, "12:05:22");
+ //   private ParsedData sensorType3 = new ParsedData(3, "PPD", 19, (float) 44.10, (float) 30.78, "12:35:15");
     private ResultSet resultSet = null;
 
     private final DatabasePreparer sensorTypeDB = new SensorTypePreparer("sensor_type");
