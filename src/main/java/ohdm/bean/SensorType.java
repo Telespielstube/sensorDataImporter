@@ -1,4 +1,4 @@
-package ohdm.bean;
+/*package ohdm.bean;
 
 import java.util.Set;
 
@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -40,7 +38,7 @@ public class SensorType {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY) 
-    @Column(name="sensor_id")
+    @Column(name="id")
 	public int getSensorId() {
 		return id;
 	}
@@ -66,4 +64,4 @@ public class SensorType {
     public void setSensorType(String sensorType) {
         this.type = sensorType;
     }
-}
+} */

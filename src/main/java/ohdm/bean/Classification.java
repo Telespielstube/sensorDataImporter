@@ -9,8 +9,8 @@ import javax.persistence.Table;
 @Table(name= "classification")
 public class Classification {
 	private int id;
-	private String classification;  //e.g. sensor
-	private String subClassificationName; // e.g. fine dust, temperature
+	private String classification = "sensor";
+	private String subClassificationName = null; // e.g. fine dust, temperature
 	
 	@Id
 	@Column(name = "id")
@@ -39,4 +39,4 @@ public class Classification {
 	public void setSubClassificationName(String subClasssificationName) {
 	    this.subClassificationName = subClasssificationName;
 	}
-}
+} 

@@ -8,7 +8,7 @@ public interface FineDustInterface {
     
     /** Creates fine dust table if it not exists already.
      */
-    public void createFineDustTable();
+    public void createFineDustTable() throws SQLException;
     
     /** Adds sensor data from the ppd sensor.
      * 

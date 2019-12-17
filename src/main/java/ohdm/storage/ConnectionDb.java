@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnection {
+public class ConnectionDb {
 	
 	public Connection connection;
 	
@@ -14,11 +14,11 @@ public class DBConnection {
 	 * @param username     identifies the user. 
 	 * @param pass         password to authenticate the user. 
 	 */
-	public DBConnection(String addr, String username, String pass) {
+	public ConnectionDb(String addr, String username, String pass) {
 		try {  		 
 			connection = DriverManager.getConnection(addr, username, pass);	
         } catch (SQLException e) {
-            System.out.println("Connection failure.");
+            System.err.println("Connection failure.");
             e.printStackTrace();
         }
 	}

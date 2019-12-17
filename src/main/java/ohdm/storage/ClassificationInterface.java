@@ -1,7 +1,24 @@
 package ohdm.storage;
 
+import java.sql.SQLException;
+
+import ohdm.bean.Classification;
+import ohdm.sensorDataImporter.ParsedData;
+
 public interface ClassificationInterface {
     
-    public boolean checkIfClassificationIdExists(String classification);
-    public void addClassification(String classification, String subclassname);
+    /** Checks the ohdm.classification table if the subclassname already exists.
+     * 
+     * @param subclassname      the sublcassname to check for.
+     * @return                  the new inserted id or the already existing id of the subclassname.
+     */
+    public boolean checkIfClassificationIdExists(String subClasssName) throws SQLException;
+    
+    /** Adds the sensor classifications to the ohdm.classification table.
+     * 
+     * @param classification    topic which classifies the object. in this context its sensor.
+     * @param subclassname      classifies the sensor type. e.g. fine dust sensor.
+     * @return                  classification id.
+     */
+    public int addClassification(String classification, String subClassName) throws SQLException;
 }

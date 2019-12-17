@@ -7,44 +7,41 @@ import java.sql.Statement;
 
 public class ClassificationDb implements ClassificationInterface {
 
-    private DBConnection db;
+    private ConnectionDb db;
     private ResultSet resultSet = null;
-    private String existingClassification = null;
+    private int existingClassificationId = 0;
 
-    public ClassificationDb(DBConnection db) {
+    public ClassificationDb(ConnectionDb db) {
         this.db = db;
     }
     
     @Override
-    public boolean checkIfClassificationIdExists(String classification) {
-        PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.classification WHERE class = " + classification + ";");
+    public boolean checkIfClassificationIdExists(String subClassName) throws SQLException {
+        PreparedStatement statement = db.connection.prepareStatement("SELECT COUNT(subclassname) FROM ohdm.classification WHERE subclassname = " + subClassName + ";");
         resultSet = statement.executeQuery();
         resultSet.next();    
         if (resultSet.getRow() == 0) {
             return false;
         } else {
-            existingClassification = resultSet.getString(2);
+            existingClassificationId = resultSet.getInt("id");
             return true;
         }
     }
     
     @Override
-    public void addClassification(String classification, String subClassName) {
-        int returnId;
-        if (!checkIfClassificationIdExists(classification) {
-            System.out.println("INSERT INTO ohdm.classification (class, subclassname) VALUES("'" + parsedData.getSensorType() + "')");
+    public int addClassification(String classification, String subClassName) throws SQLException {
+        int classId;
+        if (!checkIfClassificationIdExists(subClassName)) {
             PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.classification (class, subclassname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, parsedData.getImportedSensorId());
-            statement.setString(2, parsedData.getSensorType());
+            statement.setString(1, classification);
+            statement.setString(2, subClassName);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            returnId = resultSet.getInt("sensor_id");
+            classId = resultSet.getInt("id");
         } else {
-            returnId = previousSensorId;
+            classId = existingClassificationId;
         }
-        return returnId;      
-    }
-        
+        return classId;
     }
 }

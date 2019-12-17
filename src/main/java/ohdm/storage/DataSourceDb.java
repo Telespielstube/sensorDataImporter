@@ -4,11 +4,11 @@ import java.sql.ResultSet;
 
 public class DataSourceDb implements DataSourceInterface {
     
-    private DBConnection db;
+    private ConnectionDb db;
     private ResultSet resultSet = null;
     private int previousSensorId;
     
-    public DataSourceDb(DBConnection db) {
+    public DataSourceDb(ConnectionDb db) {
         this.db = db;
     }
 

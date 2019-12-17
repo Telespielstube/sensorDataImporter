@@ -1,12 +1,14 @@
 package ohdm.sensorDataImporter;
 
+import java.sql.Date;
+
 public class ParsedData {
     private int importedSensorId;
     private String sensorType;
     private int location;
     private float latitude;
     private float longitude;
-    private String timestamp;
+    private Date timestamp;
     private float value1;
     private float value2;
     private float value3;
@@ -15,7 +17,7 @@ public class ParsedData {
     private float value6;
     private float value7;
 
-    public ParsedData(int importedSensorId, String sensorType, int location, float latitude, float longitude, String timestamp) {
+    public ParsedData(int importedSensorId, String sensorType, int location, float latitude, float longitude, Date timestamp) {
         this.importedSensorId = importedSensorId;
         this.sensorType = sensorType;
         this.location = location;
@@ -65,11 +67,11 @@ public class ParsedData {
         this.longitude = longitude;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

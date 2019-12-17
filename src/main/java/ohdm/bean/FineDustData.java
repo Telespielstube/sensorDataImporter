@@ -1,5 +1,5 @@
 package ohdm.bean;
-
+/*
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +22,7 @@ public class FineDustData {
     private float pm0; // ultra fine dust particulate matter <0,1 μm 
     
     @ManyToOne
-    @JoinColumn(name="sensor_id")
+    @JoinColumn(name="id")
     SensorType sensorType;
     
     public FineDustData() {}
@@ -40,7 +40,7 @@ public class FineDustData {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "fine_dust_id")
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -110,4 +110,4 @@ public class FineDustData {
     public void setPm0(float pm0) {
         this.pm0 = pm0;
     }
-}
+} */

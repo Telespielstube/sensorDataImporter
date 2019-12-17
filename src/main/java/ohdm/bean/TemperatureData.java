@@ -1,5 +1,5 @@
 package ohdm.bean;
-
+/*
 import javax.persistence.Entity;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -17,7 +17,7 @@ public class TemperatureData {
     private float humidity;
     
     @ManyToOne
-    @JoinColumn(name="sensor_id")
+    @JoinColumn(name="id")
     SensorType sensorType;
     
     public TemperatureData() {}
@@ -30,7 +30,7 @@ public class TemperatureData {
     
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "temperature_id")
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -56,4 +56,4 @@ public class TemperatureData {
     public void setHumidity(float humidity) {
         this.humidity = humidity;
     }
-}
+} */

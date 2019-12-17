@@ -8,7 +8,7 @@ public interface TemperatureInterface {
     
     /** Creates temperature table if it not exists.
      */
-    public void createTemperatureTable();
+    public void createTemperatureTable() throws SQLException;
     
     /** Adds sensor data from dht sensor.
      * 

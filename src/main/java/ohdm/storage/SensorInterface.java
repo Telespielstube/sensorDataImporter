@@ -9,7 +9,7 @@ public interface SensorInterface {
     
     /** Creates sensor_type table if it not exists already.
      */
-    public void createSensorTypeTable();
+    public void createSensorTypeTable() throws SQLException;
     
     /** Checks if id is already inserted into table.
      * 
