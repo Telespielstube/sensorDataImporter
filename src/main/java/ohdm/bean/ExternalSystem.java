@@ -1,10 +1,10 @@
 package ohdm.bean;
 
-public class DataSource {
+public class ExternalSystem {
     private String name = null;
     private String description = null;
     
-    public DataSource(String name, String description) {
+    public ExternalSystem(String name, String description) {
         this.name = name;
         this.description = description;
     }

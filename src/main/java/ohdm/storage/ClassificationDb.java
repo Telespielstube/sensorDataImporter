@@ -19,13 +19,14 @@ public class ClassificationDb implements ClassificationInterface {
     
     @Override
     public boolean checkIfClassificationIdExists(String subClassName) throws SQLException {
-        PreparedStatement statement = db.connection.prepareStatement("SELECT COUNT(subclassname) FROM ohdm.classification WHERE subclassname = " + subClassName + ";");
+        PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.classification "
+                + "WHERE subclassname = '" + subClassName + "';");
         resultSet = statement.executeQuery();
         resultSet.next();    
         if (resultSet.getRow() == 0) {
             return false;
         } else {
-            existingClassificationId = resultSet.getInt("id");
+            existingClassificationId = resultSet.getInt(1 );
             return true;
         }
     }
@@ -34,7 +35,8 @@ public class ClassificationDb implements ClassificationInterface {
     public long addClassification(Classification clazz) throws SQLException {
         long classId;
         if (!checkIfClassificationIdExists(clazz.getSubClassName())) {
-            PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.classification (class, subclassname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.classification "
+                    + "(class, subclassname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, clazz.getClassification());
             statement.setString(2, clazz.getSubClassName());
             statement.executeUpdate();

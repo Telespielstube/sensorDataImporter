@@ -10,7 +10,6 @@ import ohdm.bean.DataSample;
 public class FineDustDb implements FineDustInterface {
 
     private ConnectionDb db;
-    private ResultSet resultSet = null;
 
     public FineDustDb(ConnectionDb db) {
         this.db = db;
@@ -43,6 +42,5 @@ public class FineDustDb implements FineDustInterface {
         statement.setFloat(6, dustData.getValue6());
         statement.setLong(7, foreignKeyId);
         statement.executeUpdate();
-        // resultSet.next();
     }
 }

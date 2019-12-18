@@ -9,7 +9,7 @@ import ohdm.bean.Sensor;
 public class TemperatureDb implements TemperatureInterface {
 
     private ConnectionDb db;
-    private ResultSet resultSet = null;
+  //  private ResultSet resultSet = null;
 
     public TemperatureDb(ConnectionDb db) {
         this.db = db;
@@ -37,5 +37,4 @@ public class TemperatureDb implements TemperatureInterface {
         statement.setLong(3, foreignKeyId);
         statement.executeUpdate();
     }
-
 }

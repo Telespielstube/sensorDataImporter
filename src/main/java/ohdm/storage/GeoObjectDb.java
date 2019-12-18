@@ -19,7 +19,7 @@ public class GeoObjectDb implements GeoObjectInterface {
 
     public boolean checkIfIdExists(String sensorType) throws SQLException {
         PreparedStatement statement = db.connection
-                .prepareStatement("SELECT COUNT(name) FROM ohdm.geoobject WHERE name = " + sensorType + ";");
+                .prepareStatement("SELECT COUNT(name) FROM ohdm.geoobject WHERE name = '" + sensorType + "';");
         resultSet = statement.executeQuery();
         resultSet.next();
         if (resultSet.getRow() == 0) {

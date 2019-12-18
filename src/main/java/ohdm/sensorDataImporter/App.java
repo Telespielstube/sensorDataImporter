@@ -10,7 +10,6 @@ import org.apache.commons.cli.CommandLine;
 
 import ohdm.bean.Sensor;
 import ohdm.storage.DatabaseManager;
-import ohdm.sensorDataImporter.*;
 
 public class App 
 {   

@@ -5,22 +5,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ohdm.bean.DataSource;
+import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 
-public class DataSourceDb implements DataSourceInterface {
+public class ExternalSystemDb implements ExternalSystemInterface {
 
     private ConnectionDb db;
     private ResultSet resultSet = null;
     private long existingId;
 
-    public DataSourceDb(ConnectionDb db) {
+    public ExternalSystemDb(ConnectionDb db) {
         this.db = db;
     }
 
     public boolean checkIfIdExists(String systemName) throws SQLException {
         PreparedStatement statement = db.connection
-                .prepareStatement("SELECT * FROM ohdm.external_systems WHERE name = " + systemName + ";");
+                .prepareStatement("SELECT * FROM ohdm.external_systems WHERE name = '" + systemName + "';");
         resultSet = statement.executeQuery();
         resultSet.next();
         if (resultSet.getRow() == 0) {
@@ -31,7 +31,7 @@ public class DataSourceDb implements DataSourceInterface {
         }
     }
 
-    public long addDataSource(DataSource dataSource) throws SQLException {
+    public long addDataSource(ExternalSystem dataSource) throws SQLException {
         long returnId;
         if (!checkIfIdExists(dataSource.getName())) {
             PreparedStatement statement = db.connection.prepareStatement(

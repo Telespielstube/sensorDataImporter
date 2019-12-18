@@ -17,9 +17,9 @@ public class UserDb implements UserInterface {
         this.db = db;
     }
 
-    public boolean checkIfIdExists(String userName) throws SQLException {
-        PreparedStatement statement = db.connection
-                .prepareStatement("SELECT * FROM ohdm.external_users WHERE name = " + userName + ";");
+    public boolean checkIfIdExists(int userId) throws SQLException {
+        PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.external_users "
+                + "WHERE userid = " + userId + ";");
         resultSet = statement.executeQuery();
         resultSet.next();
         if (resultSet.getRow() == 0) {
@@ -32,7 +32,7 @@ public class UserDb implements UserInterface {
 
     public long addUser(User user, long foreignKeyId) throws SQLException {
         long returnId;
-        if (!checkIfIdExists(user.getUserName())) {
+        if (!checkIfIdExists(user.getUserId())) {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.external_users (userid, username, external_system_id) VALUES(?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);

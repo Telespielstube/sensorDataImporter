@@ -4,14 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import ohdm.bean.Classification;
-import ohdm.bean.DataSource;
+import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 import ohdm.bean.User;
 
 public class DatabaseManager {
     private ArrayList<Sensor> sensorDataList;
     private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
-    private DataSourceDb dataSourceDb = new DataSourceDb(database);
+    private ExternalSystemDb dataSourceDb = new ExternalSystemDb(database);
     private UserDb userDb = new UserDb(database);
     private GeoObjectDb geoObjectDb = new GeoObjectDb(database); 
     private GeoGeometryDb geoGeometryDb = new GeoGeometryDb(database);
@@ -34,6 +34,7 @@ public class DatabaseManager {
      * @throws SQLException     thrown if an error occurs during the table creation.
      */
     public void createTables() throws SQLException {
+        System.out.println("Creating non existing tables...");
         sensorDb.createSensorTable();
         temperatureDb.createTemperatureTable();
         fineDustDb.createFineDustTable();
@@ -45,8 +46,9 @@ public class DatabaseManager {
      * @throws SQLException     is thrown if an sql insertion fails.
      */
     public void selectSensorType() throws SQLException {
+        System.out.println("Inserting sensor data...");
         Classification clazz = new Classification("sensor", "temperature");
-        DataSource dataSource = new DataSource("luftdaten", "archive.luftdaten.info");
+        ExternalSystem dataSource = new ExternalSystem("luftdaten", "archive.luftdaten.info");
         User user = new User(1, "Telespielstube");
         
         for (int i = 0; i < sensorDataList.size(); ++i) {
@@ -56,10 +58,10 @@ public class DatabaseManager {
                 long userId = userDb.addUser(user, extSystemId);
                 long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);
                 long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
-                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
+              //  long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 long sensorId = sensorDb.addSensor(sensorDataList.get(i));    
                 
-                timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
+               // timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
                 temperatureDb.addDhtData(sensorDataList.get(i), sensorId); 
             }
 //            if(dataList.get(i).getSensorType().contains("PPD")) {

@@ -2,14 +2,14 @@ package ohdm.storage;
 
 import java.sql.SQLException;
 
-import ohdm.bean.DataSource;
+import ohdm.bean.ExternalSystem;
 
 /** adds The data source to the ohdm.external_system table. 
  * 
  * @author marta
  *
  */
-public interface DataSourceInterface {
+public interface ExternalSystemInterface {
     
     /** Checks if data source already exists in table.
      */
@@ -17,6 +17,6 @@ public interface DataSourceInterface {
     
     /** adds the data source to the table.
      */
-    public long addDataSource(DataSource dataSource) throws SQLException;
+    public long addDataSource(ExternalSystem dataSource) throws SQLException;
 
 }

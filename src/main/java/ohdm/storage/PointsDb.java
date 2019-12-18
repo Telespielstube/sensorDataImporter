@@ -37,7 +37,7 @@ public class PointsDb implements PointsInterface {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.points " + "(point, source_user_id) VALUES(?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, sensorData.getLocation());
+            statement.setObject(1, sensorData.getLocation());
             statement.setLong(2, foreignKeyId);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();

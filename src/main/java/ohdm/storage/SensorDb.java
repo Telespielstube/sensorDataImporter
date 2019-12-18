@@ -18,7 +18,7 @@ public class SensorDb {
     }
 
     public void createSensorTable() throws SQLException {
-        PreparedStatement statement = db.connection.prepareStatement("CREATE TABLE ohdm.imported_sensor\n" + 
+        PreparedStatement statement = db.connection.prepareStatement("CREATE TABLE IF NOT EXISTS ohdm.imported_sensor\n" + 
                 "(\n" + 
                 "    id bigint NOT NULL DEFAULT nextval('ohdm.imported_sensor_sensor_id_seq'::regclass),\n" + 
                 "    imported_id bigint,\n" + 
@@ -34,8 +34,8 @@ public class SensorDb {
     }
 
     public boolean checkIfIdExists(int importedSensorId) throws SQLException {
-        PreparedStatement statement = db.connection
-                .prepareStatement("SELECT * FROM ohdm.imported_sensor WHERE imported_id = " + importedSensorId + ";");
+        PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.imported_sensor "
+                + "WHERE imported_id = " + importedSensorId + ";");
         resultSet = statement.executeQuery();
         resultSet.next();
         if (resultSet.getRow() == 0) {
