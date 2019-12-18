@@ -1,10 +1,11 @@
 package ohdm.storage;
 
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
 
 public class TimestampDb implements TimestampInterface {
 
@@ -23,16 +24,23 @@ public class TimestampDb implements TimestampInterface {
                 + "    CONSTRAINT sensor_timestamps_sensor_id_fkey FOREIGN KEY (sensor_id)\n"
                 + "    REFERENCES ohdm.sensor_type (id) MATCH SIMPLE\n" + "        "
                 + "    ON UPDATE NO ACTION\n"
-                + "    ON DELETE NO ACTION\n" + ")");
+                + "    ON DELETE NO ACTION\n" 
+                + ")");
         statement.executeUpdate();
         statement.close();
     }
 
-    public void addTimestampData(ParsedData parsedData, int foreignKeySensorId) throws SQLException {
+    public Timestamp parseDate(String timestamp) {      
+        Timestamp parsedTimestamp = new Timestamp(Long.parseLong(timestamp));
+        return parsedTimestamp;
+    }
+    
+    public void addTimestampData(Sensor sensorData, long foreignKeyId) throws SQLException {
+        Timestamp timestamp = parseDate(sensorData.getTimestamp());
         PreparedStatement statement = db.connection
                 .prepareStatement("INSERT INTO ohdm.sensor_timestamps (timestamp, sensor_id) VALUES (?, ?)");
-        statement.setDate(1, parsedData.getTimestamp());
-        statement.setInt(2, foreignKeySensorId);
+        statement.setTimestamp(2, timestamp);
+        statement.setLong(3, foreignKeyId);
         statement.executeUpdate();
     }
 }

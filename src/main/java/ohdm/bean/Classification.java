@@ -9,8 +9,13 @@ import javax.persistence.Table;
 @Table(name= "classification")
 public class Classification {
 	private int id;
-	private String classification = "sensor";
+	private String classification = null;
 	private String subClassificationName = null; // e.g. fine dust, temperature
+	
+	public Classification(String classification, String subClassName) {
+	    this.classification = classification;
+	    this.subClassificationName = subClassName;
+	}
 	
 	@Id
 	@Column(name = "id")

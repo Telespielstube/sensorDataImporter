@@ -3,7 +3,7 @@ package ohdm.storage;
 import java.sql.SQLException;
 
 import ohdm.bean.Classification;
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
 
 public interface ClassificationInterface {
     
@@ -20,5 +20,5 @@ public interface ClassificationInterface {
      * @param subclassname      classifies the sensor type. e.g. fine dust sensor.
      * @return                  classification id.
      */
-    public int addClassification(String classification, String subClassName) throws SQLException;
+    public long addClassification(Classification clazz) throws SQLException;
 }

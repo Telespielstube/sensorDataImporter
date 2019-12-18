@@ -1,27 +1,51 @@
 package ohdm.storage;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import ohdm.bean.DataSource;
+import ohdm.bean.Sensor;
 
 public class DataSourceDb implements DataSourceInterface {
-    
+
     private ConnectionDb db;
     private ResultSet resultSet = null;
-    private int previousSensorId;
-    
+    private long existingId;
+
     public DataSourceDb(ConnectionDb db) {
         this.db = db;
     }
 
-    @Override
-    public void checkIfDataSourceIdIsPrensent() {
-        // TODO Auto-generated method stub
-        
+    public boolean checkIfIdExists(String systemName) throws SQLException {
+        PreparedStatement statement = db.connection
+                .prepareStatement("SELECT * FROM ohdm.external_systems WHERE name = " + systemName + ";");
+        resultSet = statement.executeQuery();
+        resultSet.next();
+        if (resultSet.getRow() == 0) {
+            return false;
+        } else {
+            existingId = resultSet.getInt(1);
+            return true;
+        }
     }
 
-    @Override
-    public void addDataSource() {
-        // TODO Auto-generated method stub
-        
+    public long addDataSource(DataSource dataSource) throws SQLException {
+        long returnId;
+        if (!checkIfIdExists(dataSource.getName())) {
+            PreparedStatement statement = db.connection.prepareStatement(
+                    "INSERT INTO ohdm.external_systems (name, description) VALUES(?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, dataSource.getName());
+            statement.setString(2, dataSource.getDescription());
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            returnId = resultSet.getInt("id");
+        } else {
+            returnId = existingId;
+        }
+        return returnId;
     }
-
 }

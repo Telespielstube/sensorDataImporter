@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import ohdm.bean.Classification;
+
 public class ClassificationDb implements ClassificationInterface {
 
     private ConnectionDb db;
@@ -29,12 +31,12 @@ public class ClassificationDb implements ClassificationInterface {
     }
     
     @Override
-    public int addClassification(String classification, String subClassName) throws SQLException {
-        int classId;
-        if (!checkIfClassificationIdExists(subClassName)) {
+    public long addClassification(Classification clazz) throws SQLException {
+        long classId;
+        if (!checkIfClassificationIdExists(clazz.getSubClassName())) {
             PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.classification (class, subclassname) VALUES(?, ?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, classification);
-            statement.setString(2, subClassName);
+            statement.setString(1, clazz.getClassification());
+            statement.setString(2, clazz.getSubClassName());
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();

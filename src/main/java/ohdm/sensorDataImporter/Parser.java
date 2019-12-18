@@ -5,91 +5,87 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 
-public class Parser {  
-    ArrayList<ParsedData> parsedDataList = new ArrayList<>();
-	public Parser() {}
-	
-	/** Parses DHT22 and PPD42 sensor data.
-	 * 
-	 * @param file
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
-	 */
-	public ArrayList<ParsedData> parseFile(File[] listOfFiles) {
-	    
-		String delimiter = ";";
-		String row = null;
-		BufferedReader csv = null;
-		String[] values = null;
-		
-		for (File file : listOfFiles) {
-			try {
-			    if (file.getName().endsWith(".csv")) {
-			        csv = new BufferedReader(new FileReader(file));
-			    } else {
-			        continue;
-			    }
-			} catch (FileNotFoundException e) {
-                System.err.println("No files were found.");
-            }
-			try {
-                while ((row = csv.readLine()) != null) {	
-                    values = row.split(delimiter);
-                	if (values[0].equals("sensor_id") || values[3].isBlank() || values[4].isBlank() || values[5].isBlank()) {
-                	    continue;
-                	} 
-                    ParsedData parsedData = new ParsedData(Integer.valueOf(values[0]), 
-                            values[1], 
-                            Integer.valueOf(values[2]), 
-                            Float.valueOf(values[3]), 
-                            Float.valueOf(values[4]), 
-                            values[5]);
-                	if (values[1].contains("DHT")) {
-                	    parseDhtData(values, parsedData);
-                	} else if (values[1].contains("PPD")) {
-                	    parsePpdData(values, parsedData);
-                	}
-                }
-            } catch (IOException e) {
-                System.err.println("Something went wrong while reading/writing data.");  
-                e.printStackTrace();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-		}	
-		return parsedDataList;
-	}
-	
-	/** Parses the relevant data for the dht sensor.
-	 *  
-	 * @param values       columns for temperature and humidity.
-	 * @param parsedData   Object where the data gets added to.
-	 */
-	public void parseDhtData(String[] values, ParsedData parsedData) {
-	    if (values.length == 8 ) {
-	        parsedData.setValue1(Float.valueOf(values[6]));
-	        parsedData.setValue2(Float.valueOf(values[7]));
-	        parsedDataList.add(parsedData);
-	    }
-    }
-   
-    /** Parses the relevant data for the ppd sensor.
-     *  
-     * @param values       columns for pm10, duration_pm10, ratio_pm10 and pm25, duration_pm25, ratio_pm25.
-     * @param parsedData   Object where the data gets added to.
-     */
-    public void parsePpdData(String[] values, ParsedData parsedData) {
-        parsedData.setValue1(Float.valueOf(values[6]));
-        parsedData.setValue2(Float.valueOf(values[7]));
-        parsedData.setValue4(Float.valueOf(values[8]));
-        parsedData.setValue5(Float.valueOf(values[9]));
-        parsedData.setValue6(Float.valueOf(values[10]));
-        parsedData.setValue7(Float.valueOf(values[11]));
-        parsedDataList.add(parsedData);
-    }
+import ohdm.bean.DataSample;
+import ohdm.bean.Sensor;
+
+public class Parser {
+    ArrayList<Sensor> sensorList = new ArrayList<>();
+    ArrayList<DataSample> dataSampleList = new ArrayList<>();
     
+    public Parser() {
+    }
+
+    /**
+     * Parses sensor data of the csv file.
+     * 
+     * @param file                      sensor data csv file.
+     * @throws NumberFormatException    thrown if some convertion fails e.g. String into a number.
+     * @throws IOException              thrown if an read write error occurs.
+     * @throws FileNotFoundException    thrown if a file is not found at the specified path.
+     * @return                          List of Sensors.
+     */
+    public ArrayList<Sensor> parseFile(File[] listOfFiles) throws NumberFormatException, IOException {
+        String delimiter = ";";
+        String row = null;
+        BufferedReader csv = null;
+        String[] values = null;
+        for (File file : listOfFiles) {
+            if (file.getName().endsWith(".csv")) {
+                csv = new BufferedReader(new FileReader(file));
+            } else {
+                continue;
+            }
+            while ((row = csv.readLine()) != null) {
+                values = row.split(delimiter);
+                if (values[0].equals("sensor_id") || values[3].isBlank() || values[4].isBlank()
+                        || values[5].isBlank()) {
+                    continue;
+                }
+                Sensor sensorData = new Sensor(Integer.valueOf(values[0]), values[1], Integer.valueOf(values[2]),
+                        Float.valueOf(values[3]), Float.valueOf(values[4]), values[5]);
+                if (values[1].contains("DHT")) {
+                    parseDhtData(values, sensorData);
+                } else if (values[1].contains("PPD")) {
+      //              parsePpdData(values, sensorData);
+                }
+            }
+        }
+        return sensorList;
+    }
+
+    /**
+     * Parses data for the dht sensor.
+     * 
+     * @param values     columns for temperature and humidity.
+     * @param parsedData Object where the data gets added to.
+     */
+    public void parseDhtData(String[] values, Sensor parsedData) {
+        if (values.length == 8) {
+            parsedData.setValue1(Float.valueOf(values[6]));
+            parsedData.setValue2(Float.valueOf(values[7]));
+            sensorList.add(parsedData);
+        }
+    }
+
+//    /**
+//     * Parses the relevant data for the ppd sensor.
+//     * 
+//     * @param values     columns for pm10, duration_pm10, ratio_pm10 and pm25,
+//     *                   duration_pm25, ratio_pm25.
+//     * @param parsedData Object where the data gets added to.
+//     */
+//    public void parsePpdData(String[] values, Sensor parsedData) {
+//        parsedData.setValue1(Float.valueOf(values[6]));
+//        parsedData.setValue2(Float.valueOf(values[7]));
+//        parsedData.setValue4(Float.valueOf(values[8]));
+//        parsedData.setValue5(Float.valueOf(values[9]));
+//        parsedData.setValue6(Float.valueOf(values[10]));
+//        parsedData.setValue7(Float.valueOf(values[11]));
+//        parsedDataList.add(parsedData);
+//    }
+
     // add more sensor parser.
 }
-

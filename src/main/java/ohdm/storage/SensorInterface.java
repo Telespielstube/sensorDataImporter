@@ -3,13 +3,13 @@ package ohdm.storage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
 
 public interface SensorInterface {
     
     /** Creates sensor_type table if it not exists already.
      */
-    public void createSensorTypeTable() throws SQLException;
+    public void createSensorTable() throws SQLException;
     
     /** Checks if id is already inserted into table.
      * 
@@ -17,7 +17,7 @@ public interface SensorInterface {
      * @return                      returns false if id is not already inserted or true if id is already in. 
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
-    public boolean checkIfIdIsInDatabase(ResultSet resultSet, int importedSensorId) throws SQLException;
+    public boolean checkIfIdExists(ResultSet resultSet, int importedSensorId) throws SQLException;
     
     /** Adds the sensor type to the sensor table.
      * 
@@ -25,5 +25,5 @@ public interface SensorInterface {
      * @return                  sensor type primary key or already inserted primary key. 
      * @throws SQLException     throws exception if some SQL query error occurs.
      */
-    public int addSensorType(ParsedData parsedData) throws SQLException;
+    public long addSensor(Sensor sensorData) throws SQLException;
 }

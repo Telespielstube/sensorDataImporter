@@ -3,36 +3,39 @@ package ohdm.storage;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import ohdm.sensorDataImporter.ParsedData;
 import ohdm.bean.Classification;
+import ohdm.bean.DataSource;
+import ohdm.bean.Sensor;
+import ohdm.bean.User;
 
 public class DatabaseManager {
-    
-
-    private ArrayList<ParsedData> dataList;
-    private Classification classification;
+    private ArrayList<Sensor> sensorDataList;
     private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
     private DataSourceDb dataSourceDb = new DataSourceDb(database);
-    private SensorTypeDb sensorTypeDb = new SensorTypeDb(database);
+    private UserDb userDb = new UserDb(database);
+    private GeoObjectDb geoObjectDb = new GeoObjectDb(database); 
+    private GeoGeometryDb geoGeometryDb = new GeoGeometryDb(database);
+    private SensorDb sensorDb = new SensorDb(database);
     private ClassificationDb classificationDb = new ClassificationDb(database);
-    private TemperatureDb tempDb = new TemperatureDb(database);
-    private FineDustDb fineDustDb = new FineDustDb(database);
+    private PointsDb pointsDb = new PointsDb(database);
     private TimestampDb timestampDb = new TimestampDb(database);
-    
+    private TemperatureDb temperatureDb = new TemperatureDb(database);
+    private FineDustDb fineDustDb = new FineDustDb(database);
+      
     /** Constructor
      * 
-     * @param dataList  holds the complete list of parsed data from the csv files.
+     * @param sensorDataList  holds the complete list of parsed data from the csv files.
      */
-    public DatabaseManager(ArrayList<ParsedData> dataList) {
-        this.dataList = dataList;
+    public DatabaseManager(ArrayList<Sensor> sensorDataList) {
+        this.sensorDataList = sensorDataList;
     }
     
     /** Methode to create all sensor relevant in the ohdm postgis database.
      * @throws SQLException     thrown if an error occurs during the table creation.
      */
     public void createTables() throws SQLException {
-        sensorTypeDb.createSensorTypeTable();
-        tempDb.createTemperatureTable();
+        sensorDb.createSensorTable();
+        temperatureDb.createTemperatureTable();
         fineDustDb.createFineDustTable();
         timestampDb.createTimestampTable();
     }
@@ -42,23 +45,30 @@ public class DatabaseManager {
      * @throws SQLException     is thrown if an sql insertion fails.
      */
     public void selectSensorType() throws SQLException {
-        classification.setClassification("sensor");
-        int foreignKeySensorId = 0;
-        for (int i = 0; i < dataList.size(); ++i) {
-            if(dataList.get(i).getSensorType().contains("DHT")) {
-                classification.setSubClassificationName("temperature");
-                classificationDb.addClassification(classification.getClassification(), classification.getSubClassName());
-                foreignKeySensorId = sensorTypeDb.addSensorType(dataList.get(i));    
-                timestampDb.addTimestampData(dataList.get(i), foreignKeySensorId);
-                tempDb.addDhtData(dataList.get(i), foreignKeySensorId); 
+        Classification clazz = new Classification("sensor", "temperature");
+        DataSource dataSource = new DataSource("luftdaten", "archive.luftdaten.info");
+        User user = new User(1, "Telespielstube");
+        
+        for (int i = 0; i < sensorDataList.size(); ++i) {
+            if(sensorDataList.get(i).getSensorType().contains("DHT")) {              
+                long clazzId = classificationDb.addClassification(clazz);
+                long extSystemId = dataSourceDb.addDataSource(dataSource);
+                long userId = userDb.addUser(user, extSystemId);
+                long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);
+                long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
+                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
+                long sensorId = sensorDb.addSensor(sensorDataList.get(i));    
+                
+                timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
+                temperatureDb.addDhtData(sensorDataList.get(i), sensorId); 
             }
-            if(dataList.get(i).getSensorType().contains("PPD")) {
-                classification.setSubClassificationName("fine dust");
-                classificationDb.addClassification(classification.getClassification(), classification.getSubClassName());
-                foreignKeySensorId = sensorTypeDb.addSensorType(dataList.get(i));
-                timestampDb.addTimestampData(dataList.get(i), foreignKeySensorId);
-                fineDustDb.addPpdData(dataList.get(i), foreignKeySensorId);               
-            }
+//            if(dataList.get(i).getSensorType().contains("PPD")) {
+//                classification.setSubClassificationName("fine dust");
+//                classificationDb.addClassification(classification.getClassification(), classification.getSubClassName());
+//                foreignKeyId = sensorDb.addSensor(dataList.get(i));
+//                timestampDb.addTimestampData(dataList.get(i), foreignKeyId);
+//                fineDustDb.addPpdData(dataList.get(i), foreignKeyId);               
+//            }
         }
     }
 }

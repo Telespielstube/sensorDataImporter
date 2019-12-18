@@ -2,7 +2,7 @@ package ohdm.storage;
 
 import java.sql.SQLException;
 
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
 
 public interface FineDustInterface {  
     
@@ -16,5 +16,5 @@ public interface FineDustInterface {
      * @param foreignKeySensorId    sensor id foreign key which connects table to sensor type table. 
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
-    public void addPpdData(ParsedData dustData, int foreignKeySensorId) throws SQLException;
+    public void addPpdData(Sensor dustData, long foreignKeySensorId) throws SQLException;
 }

@@ -1,18 +1,19 @@
 package ohdm.sensorDataImporterTest;
 
-import org.apache.commons.io.FileUtils;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.*;
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-import ohdm.bean.SensorType;
+import ohdm.bean.Sensor;
 import ohdm.sensorDataImporter.*;
+
 
 public class AppTest {
 
@@ -21,16 +22,16 @@ public class AppTest {
 
     @Before
     public void setup() {
-        zipFilePath = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/";
-        extractTo = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/extracted";
+        zipFilePath = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip";
+        extractTo = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/csv";
     }
 
     @Test
     public void testIfAllFilesInFolderGetRead() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
         File[] files = reader.readFile(zipFilePath, ".zip");
-        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/2016-01_dht22.zip"), files[0]);
-        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/2015-11_ppd42ns.zip"), files[1]);
+        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2015-10-01_ppd42ns_sensor_27.zip"), files[0]);
+        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2016-01_dht22.zip"), files[1]);      
     }
 
     @Test
@@ -45,7 +46,7 @@ public class AppTest {
     @Test 
     public void testIfNonExistingFilesReturnAnError() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
-        File[] files = reader.readFile(extractTo, ".csv");   
+        File[] files = reader.readFile(zipFilePath, ".csv");   
         Assert.assertTrue(files.length == 0);
     }
     
@@ -54,7 +55,7 @@ public class AppTest {
         File file = new File(extractTo);
         File[] files = file.listFiles();
         Parser fileParser = new Parser();
-        ArrayList<ParsedData> parsedFile = fileParser.parseFile(files);
+        ArrayList<Sensor> parsedFile = fileParser.parseFile(files);
         Assert.assertTrue(parsedFile.toString(), true);
     }
     

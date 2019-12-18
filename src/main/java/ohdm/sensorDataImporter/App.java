@@ -8,16 +8,14 @@ import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
 
+import ohdm.bean.Sensor;
 import ohdm.storage.DatabaseManager;
+import ohdm.sensorDataImporter.*;
 
 public class App 
-{
-	// Added new command line option u -> extractTo is not needed anymore
-	//private static String extractTo = "C:\\test";
-	//private static String extractTo = "/Users/marta/extractedLuftdaten";
-    
+{   
     public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException  {
-    	ArrayList<ParsedData> dataList = new ArrayList<>();
+    	ArrayList<Sensor> dataList = new ArrayList<>();
 
        	Unzip unzip = new Unzip();
     	Reader fileReader = new Reader();

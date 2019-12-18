@@ -4,7 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
+import ohdm.bean.DataSample;
 
 public class FineDustDb implements FineDustInterface {
 
@@ -30,7 +31,7 @@ public class FineDustDb implements FineDustInterface {
         statement.close();
     }
 
-    public void addPpdData(ParsedData dustData, int foreignKeySensorId) throws SQLException {
+    public void addPpdData(Sensor dustData, long foreignKeyId) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.fine_dust_data "
                 + "(pm10, dur_pm10, ratio_pm10, pm25, dur_pm25, ratio_pm25, pm0, fine_dust_sensor_id_fkey) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
@@ -40,7 +41,7 @@ public class FineDustDb implements FineDustInterface {
         statement.setFloat(4, dustData.getValue4());
         statement.setFloat(5, dustData.getValue5());
         statement.setFloat(6, dustData.getValue6());
-        statement.setInt(7, foreignKeySensorId);
+        statement.setLong(7, foreignKeyId);
         statement.executeUpdate();
         // resultSet.next();
     }

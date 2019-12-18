@@ -18,7 +18,7 @@ import com.opentable.db.postgres.embedded.FlywayPreparer;
 import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
 import com.opentable.db.postgres.junit.PreparedDbRule;
 
-import ohdm.sensorDataImporter.ParsedData;
+import ohdm.bean.Sensor;
 
 public class DataBaseTest {
 
