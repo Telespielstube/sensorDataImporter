@@ -26,7 +26,6 @@ public class Reader {
             }
             
         }); 
-		System.out.println("Done");
 		
 		return fileList;
 	}

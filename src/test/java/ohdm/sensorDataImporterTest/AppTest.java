@@ -8,60 +8,64 @@ import java.util.ArrayList;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import ohdm.bean.Sensor;
 import ohdm.sensorDataImporter.*;
 
-
 public class AppTest {
 
-    String zipFilePath;
-    String extractTo;
-
-    @Before
-    public void setup() {
-        zipFilePath = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip";
-        extractTo = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/csv";
-    }
+    String zipFiles = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip";
+    String extractTo = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/extracted";
+    String csvFile = "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/csv";
 
     @Test
     public void testIfAllFilesInFolderGetRead() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
-        File[] files = reader.readFile(zipFilePath, ".zip");
-        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2015-10-01_ppd42ns_sensor_27.zip"), files[0]);
-        Assert.assertEquals(new File("/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2016-01_dht22.zip"), files[1]);      
+        File[] files = reader.readFile(zipFiles, ".zip");
+        Assert.assertEquals(new File(
+                "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2015-10-01_ppd42ns_sensor_27.zip"),
+                files[0]);
+        Assert.assertEquals(new File(
+                "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2019-11-26_dht22_sensor_1015.zip"),
+                files[1]);
+        Assert.assertEquals(new File(
+                "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2016-10-10_sds011_sensor_183.zip"),
+                files[2]);
+        Assert.assertEquals(new File(
+                "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/zip/2016-10-10_ppd42ns_sensor_49.zip"),
+                files[3]);
     }
 
     @Test
     public void testIfZipFileGetsUnzipped() throws FileNotFoundException, IOException {
-        File file = new File(zipFilePath);
+        File file = new File(zipFiles);
         File[] files = file.listFiles();
         Unzip unzip = new Unzip();
         unzip.fileUnzip(files, extractTo);
-        Assert.assertTrue(true);       
+        Assert.assertTrue(files.length > 0);
     }
     
-    @Test 
+
+    @Test
     public void testIfNonExistingFilesReturnAnError() throws FileNotFoundException, IOException {
         Reader reader = new Reader();
-        File[] files = reader.readFile(zipFilePath, ".csv");   
+        File[] files = reader.readFile(zipFiles, ".csv");
         Assert.assertTrue(files.length == 0);
     }
-    
+
     @Test
     public void testIfCSVFileGetsParsed() throws FileNotFoundException, IOException {
-        File file = new File(extractTo);
+        File file = new File(csvFile);
         File[] files = file.listFiles();
         Parser fileParser = new Parser();
         ArrayList<Sensor> parsedFile = fileParser.parseFile(files);
         Assert.assertTrue(parsedFile.toString(), true);
     }
-    
+
     @After
     public void cleanUp() throws IOException {
         File file = new File(extractTo);
         FileUtils.cleanDirectory(file);
-    } 
-} 
+    }
+}

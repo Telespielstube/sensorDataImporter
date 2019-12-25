@@ -58,7 +58,7 @@ public class DatabaseManager {
                 long userId = userDb.addUser(user, extSystemId);
                 long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);
                 long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
-              //  long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
+                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 long sensorId = sensorDb.addSensor(sensorDataList.get(i));    
                 
                // timestampDb.addTimestampData(sensorDataList.get(i), sensorId);

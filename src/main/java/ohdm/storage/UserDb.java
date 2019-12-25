@@ -31,7 +31,7 @@ public class UserDb implements UserInterface {
     }
 
     public long addUser(User user, long foreignKeyId) throws SQLException {
-        long returnId;
+        long userId;
         if (!checkIfIdExists(user.getUserId())) {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.external_users (userid, username, external_system_id) VALUES(?, ?, ?)",
@@ -42,10 +42,10 @@ public class UserDb implements UserInterface {
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            returnId = resultSet.getInt("id");
+            userId = resultSet.getInt("id");
         } else {
-            returnId = existingId;
+            userId = existingId;
         }
-        return returnId;
+        return userId;
     }
 }

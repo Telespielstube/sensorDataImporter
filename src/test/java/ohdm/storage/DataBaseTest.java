@@ -1,62 +1,66 @@
 package ohdm.storage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import org.junit.Rule;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.opentable.db.postgres.embedded.DatabaseConnectionPreparer;
-import com.opentable.db.postgres.embedded.DatabasePreparer;
-import com.opentable.db.postgres.embedded.FlywayPreparer;
-import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
-import com.opentable.db.postgres.junit.PreparedDbRule;
-
-import ohdm.bean.Sensor;
+import ohdm.bean.ExternalSystem;
+import ohdm.bean.User;
 
 public class DataBaseTest {
 
-//    private ParsedData sensorType1 = new ParsedData(1, "DHT", 19, (float) 48.13, (float) 90.78, "12:45:45");
- //   private ParsedData sensorType2 = new ParsedData(2, "DHT", 19, (float) 48.00, (float) 80.78, "12:05:22");
- //   private ParsedData sensorType3 = new ParsedData(3, "PPD", 19, (float) 44.10, (float) 30.78, "12:35:15");
-    private ResultSet resultSet = null;
-
-    private final DatabasePreparer sensorTypeDB = new SensorTypePreparer("sensor_type");
-
-
-    @Rule
-    public PreparedDbRule dbA1 = EmbeddedPostgresRules.preparedDatabase(sensorTypeDB);
-
-    @Test
-    public void testDbs() throws Exception {
-        try (Connection c = dbA1.getTestDatabase().getConnection(); 
-            Statement stmt = c.createStatement()) {
-            stmt.execute("INSERT INTO sensor_type VALUES(1)");
-            resultSet = stmt.executeQuery("SELECT COUNT(1) FROM sensor_type");
-            resultSet.next();
-            assertEquals(1, resultSet.getInt(1));
+    ConnectionDb database;
+    long foreignKeyId = 0;
+    
+    @BeforeClass
+    public static void testIfDatabaseGetsCreated() throws IOException, InterruptedException {
+        Process p;
+        try {
+            String[] cmd = { "sh", "/Users/marta/Documents/eclipse-workspace/sensorDataImporter/src/test/resources/database/importer.sh" };
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } finally {
+            //
         }
+    }
+
+    @Before
+    public void testIfDatabaseGetsConnected() {
+        database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
     }
     
-    // Creates test tables.
-    static class SensorTypePreparer implements DatabaseConnectionPreparer {
-        private final String name;
-
-        public SensorTypePreparer(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public void prepare(Connection conn) throws SQLException {
-            try (PreparedStatement stmt = conn.prepareStatement(String.format("CREATE TABLE sensor_type(sensor_id bigint, imported_id bigint, sensor_type text)"))) {
-                stmt.execute();
-            }
+    @Test
+    public void testIfExternalSystemGetsAdded() throws SQLException {
+        ExternalSystemDb extSystem = new ExternalSystemDb(database);
+        ExternalSystem ext = new ExternalSystem("luftdaten", "archive.luftdaten.info");
+        foreignKeyId = extSystem.addDataSource(ext);
+    }
+    
+    @Test
+    public void testIfUserGetsAdded() throws SQLException {
+        UserDb userDb = new UserDb(database);
+        User user1 = new User(1, "firstTester");
+        userDb.addUser(user1, foreignKeyId);
+    }
+    
+    @After
+    public void closeConnection() throws SQLException {
+        try {
+            database.connection.close();
+        } finally {
+            // do nothing
         }
     }
-    }
+
+}
