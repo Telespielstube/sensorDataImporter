@@ -1,6 +1,7 @@
 package ohdm.bean;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Sensor {
     private int importedSensorId;
@@ -9,6 +10,7 @@ public class Sensor {
     private float latitude;
     private float longitude;
     private String timestamp;
+    private ArrayList<DataSample> samples;
     private float value1;
     private float value2;
     private float value3;
@@ -24,6 +26,7 @@ public class Sensor {
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
+        this.samples = new ArrayList<DataSample>();
     }
         
     // Getter, setter
@@ -73,6 +76,14 @@ public class Sensor {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+    
+    public void addDataSample(DataSample sample) {
+        samples.add(sample);
+    }
+    
+    public DataSample getDataSample(int index) {
+        return samples.get(index);
     }
     
     public float getValue1() {

@@ -40,20 +40,34 @@ public class Parser {
             } else {
                 continue;
             }
+            String[] headers = null;
+            if ((row = csv.readLine()) != null) {
+                headers = row.split(delimiter);
+            }
             while ((row = csv.readLine()) != null) {
                 values = row.split(delimiter);
-
-                if (values[0].equals("sensor_id")) {
-                    continue;
-                }
+  //              if (values.length < 7) {
+    //                continue;
+      //          }
+                try {
                 Sensor sensorData = new Sensor(Integer.valueOf(values[0]), values[1], Integer.valueOf(values[2]),
                         Float.valueOf(values[3]), Float.valueOf(values[4]), values[5]);
-                if (values[1].contains("dht")) {
+                for (int i = 6; i < headers.length; ++i) {
+                    sensorData.addDataSample(new DataSample(headers[i], Float.valueOf(values[i])));
+                }
+                sensorList.add(sensorData);
+                } catch (NumberFormatException e) {
+                    continue;
+                } catch (ArrayIndexOutOfBoundsException exp) {
+                    continue;
+                }
+                
+ /*               if (values[1].contains("dht")) {
                     parseDhtData(values, sensorData);
                 } 
                 if (values[1].contains("ppd")) {
                     parsePpdData(values, sensorData);
-                }
+                } */
             }
         }
         return sensorList;

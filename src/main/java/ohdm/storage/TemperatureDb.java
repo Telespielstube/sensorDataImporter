@@ -32,8 +32,8 @@ public class TemperatureDb implements TemperatureInterface {
     public void addDhtData(Sensor tempData, long foreignKeyId) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement(
                 "INSERT INTO ohdm.temperature_data (temperature, humidity, sensor_id) VALUES(?, ?, ?)");
-        statement.setFloat(1, tempData.getValue1());
-        statement.setFloat(2, tempData.getValue2());
+        statement.setFloat(1, tempData.getDataSample(0).getValue());
+        statement.setFloat(2, tempData.getDataSample(1).getValue());
         statement.setLong(3, foreignKeyId);
         statement.executeUpdate();
     }

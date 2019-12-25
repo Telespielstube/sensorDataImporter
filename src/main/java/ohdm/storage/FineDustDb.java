@@ -34,12 +34,12 @@ public class FineDustDb implements FineDustInterface {
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.fine_dust_data "
                 + "(pm10, dur_pm10, ratio_pm10, pm25, dur_pm25, ratio_pm25, pm0, fine_dust_sensor_id_fkey) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-        statement.setFloat(1, dustData.getValue1());
-        statement.setFloat(2, dustData.getValue2());
-        statement.setFloat(3, dustData.getValue3());
-        statement.setFloat(4, dustData.getValue4());
-        statement.setFloat(5, dustData.getValue5());
-        statement.setFloat(6, dustData.getValue6());
+        statement.setFloat(1, dustData.getDataSample(0).getValue());
+        statement.setFloat(1, dustData.getDataSample(1).getValue());
+        statement.setFloat(1, dustData.getDataSample(2).getValue());
+        statement.setFloat(1, dustData.getDataSample(3).getValue());
+        statement.setFloat(1, dustData.getDataSample(4).getValue());
+        statement.setFloat(1, dustData.getDataSample(5).getValue());
         statement.setLong(7, foreignKeyId);
         statement.executeUpdate();
     }

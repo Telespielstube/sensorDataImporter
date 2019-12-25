@@ -38,7 +38,7 @@ public class DatabaseManager {
         sensorDb.createSensorTable();
         temperatureDb.createTemperatureTable();
         fineDustDb.createFineDustTable();
-        timestampDb.createTimestampTable();
+   //     timestampDb.createTimestampTable();
     }
 
     /** Depending on the .csv column sensor type data gets inserted to the apprpiate table.
@@ -57,8 +57,8 @@ public class DatabaseManager {
                 long extSystemId = dataSourceDb.addDataSource(dataSource);
                 long userId = userDb.addUser(user, extSystemId);
                 long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);
-                long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
-                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
+               // long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
+               // long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 long sensorId = sensorDb.addSensor(sensorDataList.get(i));    
                 
                // timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
