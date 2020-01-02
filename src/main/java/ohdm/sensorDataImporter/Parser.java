@@ -15,8 +15,6 @@ import ohdm.bean.Sensor;
 public class Parser {
     ArrayList<Sensor> sensorList = new ArrayList<>();
     ArrayList<DataSample> dataSampleList = new ArrayList<>();
-    // HashMap<Sensor, ArrayList<DataSample>> SensorMap = new HashMap<Sensor,
-    // ArrayList<DataSample>>();
 
     public Parser() {}
 
@@ -24,7 +22,7 @@ public class Parser {
      * Parses sensor data of the csv file.
      * 
      * @param file sensor data csv file.
-     * @throws NumberFormatException thrown if some convertion fails e.g. String
+     * @throws NumberFormatException thrown if some conversion fails e.g. String
      *                               into a number.
      * @throws IOException           thrown if an read write error occurs.
      * @throws FileNotFoundException thrown if a file is not found at the specified
@@ -49,9 +47,14 @@ public class Parser {
             while ((row = csv.readLine()) != null) {
 
                 try {
+                    values = row.split(delimiter);
+                    // skip rows that have no sensor data
+                    if (values.length <= 6)
+                        continue;
+
                     Sensor sensorData = new Sensor(Integer.valueOf(values[0]), values[1], Integer.valueOf(values[2]),
                             Float.valueOf(values[3]), Float.valueOf(values[4]), values[5]);
-                    for (int i = 6; i < headers.length; ++i) {
+                    for (int i = 6; i < values.length; ++i) {
                         sensorData.addDataSample(new DataSample(headers[i], Float.valueOf(values[i])));
                     }
                     sensorList.add(sensorData);

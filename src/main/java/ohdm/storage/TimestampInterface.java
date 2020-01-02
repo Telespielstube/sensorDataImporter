@@ -3,6 +3,7 @@ package ohdm.storage;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import ohdm.bean.Sensor;
 
@@ -14,18 +15,11 @@ public interface TimestampInterface {
      */
     public void createTimestampTable() throws SQLException;
     
-    /** Parses the timestamp string from the csv file to the postgresql conform date format. 
-     * 
-     * @param timestamp     date and time as string.
-     * @return              timestamp string as sql conform Date format.
-     */
-    public Timestamp parseDate(String timestamp);
-    
     /** Adds timestamp to the table.
      * 
      * @param parsedData            holds the timestamp data from the parsed cls file.
      * @param foreignKeySensorId    sensor id.
      * @throws SQLException         gets thrown if an error occurs while inserting data.
      */
-    public long addTimestampData(Sensor parsedData, long foreignKeySensorId) throws SQLException;
+    public long addTimestampData(Sensor parsedData) throws SQLException;
 }

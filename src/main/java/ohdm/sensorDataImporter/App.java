@@ -30,9 +30,9 @@ public class App
         listOfFiles = fileReader.readFile(extractTo, ".csv");
         dataList = fileParser.parseFile(listOfFiles);
         
-        //Database 
+        //Database operations
         DatabaseManager databaseManager = new DatabaseManager(dataList);
         databaseManager.createTables();
-        databaseManager.selectSensorType();
+        databaseManager.insertSensorToDatabase();
     }
 }

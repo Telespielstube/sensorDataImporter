@@ -11,7 +11,7 @@
 #Download url
 URL=https://archive.luftdaten.info/csv_per_month/
 
-# output on terminal
+# Output on terminal
 echo "Downloading files from archive.luftdaten.info"
 
 # If first variable is null all files get downloaded to the default path else files get downloaded to user specified path.
@@ -20,11 +20,12 @@ then
 	#Directory where the files get downloaded.  
 	DIR=~/Documents/archive.luftdaten.info/
 else
-	# first argument gets assigned to DIR variable.
+	# First argument gets assigned to DIR variable.
 	DIR=$1
 fi	
 #wget command
-#If you only need to download specific files from the url add -A "your Pattern" to the options. (eg. -A "*dht22*" for downloading dht22 files only.)
-wget -nd -r -np -P -A "*dht22*" $DIR -R "index.html*" --cut-dirs=2 $URL
+#If you only need to download specific files from the url add -A "your Pattern" to the options. (eg. -A "*dht22*" for downloading files containing dht22 substring.)
+wget -A "*dht22*" -nd -r -np -P $DIR -R "index.html*" --cut-dirs=2 $URL
 
-echo "Congratulation!! You successfully downloaded the complete archive to: ${DIR}"
+# Finished downloading complete archive.
+echo "Congratulation!! You successfully downloaded the complete archive"

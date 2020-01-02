@@ -46,14 +46,14 @@ public class SensorDb {
         }
     }
 
-    public long addSensor(Sensor sensorData) throws SQLException {
+    public long addSensor(Sensor sensorData, long geoObjectId) throws SQLException {
         long returnId;
         if (!checkIfIdExists(sensorData.getImportedSensorId())) {
             PreparedStatement statement = db.connection.prepareStatement(
-                    "INSERT INTO ohdm.imported_sensor (imported_id, sensor_type) VALUES(?, ?)",
+                    "INSERT INTO ohdm.imported_sensor (imported_id, geoobject_id) VALUES(?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, sensorData.getImportedSensorId());
-            statement.setString(2, sensorData.getSensorType());
+            statement.setLong(2, geoObjectId);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
