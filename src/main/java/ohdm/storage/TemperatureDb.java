@@ -29,12 +29,13 @@ public class TemperatureDb implements TemperatureInterface {
         statement.close();
     }
 
-    public void addDhtData(Sensor tempData, long foreignKeyId) throws SQLException {
+    public void addDhtData(Sensor tempData, long foreignKeyId, long timestampId) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement(
-                "INSERT INTO ohdm.temperature_data (temperature, humidity, sensor_id) VALUES(?, ?, ?)");
+                "INSERT INTO ohdm.temperature_data (temperature, humidity, sensor_id, timestamp_id) VALUES(?, ?, ?, ?)");
         statement.setFloat(1, tempData.getDataSample(0).getValue());
         statement.setFloat(2, tempData.getDataSample(1).getValue());
         statement.setLong(3, foreignKeyId);
+        statement.setLong(4, timestampId);
         statement.executeUpdate();
     }
 }

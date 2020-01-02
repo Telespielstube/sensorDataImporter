@@ -34,11 +34,11 @@ public class DatabaseManager {
      * @throws SQLException     thrown if an error occurs during the table creation.
      */
     public void createTables() throws SQLException {
-        System.out.println("Creating non existing tables...");
+        System.out.println("Creating not existing tables...");
         sensorDb.createSensorTable();
         temperatureDb.createTemperatureTable();
         fineDustDb.createFineDustTable();
-   //     timestampDb.createTimestampTable();
+        timestampDb.createTimestampTable();
     }
 
     /** Depending on the .csv column sensor type data gets inserted to the apprpiate table.
@@ -61,8 +61,8 @@ public class DatabaseManager {
                // long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 long sensorId = sensorDb.addSensor(sensorDataList.get(i));    
                 
-               // timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
-                temperatureDb.addDhtData(sensorDataList.get(i), sensorId); 
+                long timestampId = timestampDb.addTimestampData(sensorDataList.get(i), sensorId);
+                temperatureDb.addDhtData(sensorDataList.get(i), sensorId, timestampId); 
             }
 //            if(dataList.get(i).getSensorType().contains("PPD")) {
 //                classification.setSubClassificationName("fine dust");

@@ -27,5 +27,5 @@ public interface TimestampInterface {
      * @param foreignKeySensorId    sensor id.
      * @throws SQLException         gets thrown if an error occurs while inserting data.
      */
-    public void addTimestampData(Sensor parsedData, long foreignKeySensorId) throws SQLException;
+    public long addTimestampData(Sensor parsedData, long foreignKeySensorId) throws SQLException;
 }

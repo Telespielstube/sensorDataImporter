@@ -36,12 +36,13 @@ public class TimestampDb implements TimestampInterface {
         return parsedTimestamp;
     }
     
-    public void addTimestampData(Sensor sensorData, long foreignKeyId) throws SQLException {
+    public long addTimestampData(Sensor sensorData, long foreignKeyId) throws SQLException {
     //    Timestamp timestamp = parseDate(sensorData.getTimestamp());
         PreparedStatement statement = db.connection
                 .prepareStatement("INSERT INTO ohdm.sensor_timestamps (timestamp, sensor_id) VALUES (?, ?)");
         statement.setTimestamp(1, Timestamp.valueOf(sensorData.getTimestamp()));
         statement.setLong(2, foreignKeyId);
         statement.executeUpdate();
+        return resultSet.getInt("id");
     }
 }

@@ -9,6 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.Assert;
 
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.User;
@@ -42,9 +43,10 @@ public class DataBaseTest {
     
     @Test
     public void testIfExternalSystemGetsAdded() throws SQLException {
-        ExternalSystemDb extSystem = new ExternalSystemDb(database);
+        ExternalSystemDb extSystemDb = new ExternalSystemDb(database);
         ExternalSystem ext = new ExternalSystem("luftdaten", "archive.luftdaten.info");
-        foreignKeyId = extSystem.addDataSource(ext);
+        foreignKeyId = extSystemDb.addDataSource(ext);
+        Assert.assertEquals(true, extSystemDb.checkIfIdExists(ext.getName()));
     }
     
     @Test
@@ -52,6 +54,20 @@ public class DataBaseTest {
         UserDb userDb = new UserDb(database);
         User user1 = new User(1, "firstTester");
         userDb.addUser(user1, foreignKeyId);
+        Assert.assertEquals(true, userDb.checkIfIdExists(user1.getUserId()));
+    }
+    
+//    @Test
+//    public void testIfTemperatureDataGetsAdded() throws SQLException {
+//        TemperatureDb tempDb = new TemperatureDb(database);
+//        DataSample datSamp = new DataSample(34.00, 56.34);
+//        tempDb.addDhtData(tempData, foreignKeyId);
+//        Assert.assertEquals(true, tempDb);
+//    }
+       
+    @Test
+    public void testIfFineDustDataGetsAdded() throws SQLException {
+        
     }
     
     @After
