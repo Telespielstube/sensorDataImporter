@@ -35,11 +35,11 @@ public class FineDustDb implements FineDustInterface {
                 + "(pm10, dur_pm10, ratio_pm10, pm25, dur_pm25, ratio_pm25, pm0, fine_dust_sensor_id_fkey) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
         statement.setFloat(1, dustData.getDataSample(0).getValue());
-        statement.setFloat(1, dustData.getDataSample(1).getValue());
-        statement.setFloat(1, dustData.getDataSample(2).getValue());
-        statement.setFloat(1, dustData.getDataSample(3).getValue());
-        statement.setFloat(1, dustData.getDataSample(4).getValue());
-        statement.setFloat(1, dustData.getDataSample(5).getValue());
+        statement.setFloat(2, dustData.getDataSample(1).getValue());
+        statement.setFloat(3, dustData.getDataSample(2).getValue());
+        statement.setFloat(4, dustData.getDataSample(3).getValue());
+        statement.setFloat(5, dustData.getDataSample(4).getValue());
+        statement.setFloat(6, dustData.getDataSample(5).getValue());
         statement.setLong(7, foreignKeyId);
         statement.executeUpdate();
     }

@@ -21,5 +21,5 @@ public interface GeoObjectInterface {
      * @return
      * @throws SQLException
      */
-    public long addGeoObject(Sensor sensorData, long foreignKeyId) throws SQLException;
+    public long addGeoObject(Sensor sensorData, long userId) throws SQLException;
 }

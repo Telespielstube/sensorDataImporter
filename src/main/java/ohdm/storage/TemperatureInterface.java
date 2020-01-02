@@ -17,5 +17,5 @@ public interface TemperatureInterface {
      * @param foreignKeySensorId    sensor id foreign key which connects table to sensor type table.
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
-    public void addDhtData(Sensor tempData, long foreignKeySensorId) throws SQLException;
+    public void addDhtData(Sensor tempData, long foreignKeyId, long timestamp_id) throws SQLException;
 }

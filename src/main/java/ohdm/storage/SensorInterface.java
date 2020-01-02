@@ -25,5 +25,5 @@ public interface SensorInterface {
      * @return                  sensor type primary key or already inserted primary key. 
      * @throws SQLException     throws exception if some SQL query error occurs.
      */
-    public long addSensor(Sensor sensorData) throws SQLException;
+    public long addSensor(Sensor sensorData, long geoObjectId) throws SQLException;
 }

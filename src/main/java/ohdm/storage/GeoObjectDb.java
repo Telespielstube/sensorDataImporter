@@ -19,7 +19,7 @@ public class GeoObjectDb implements GeoObjectInterface {
 
     public boolean checkIfIdExists(String sensorType) throws SQLException {
         PreparedStatement statement = db.connection
-                .prepareStatement("SELECT COUNT(name) FROM ohdm.geoobject WHERE name = '" + sensorType + "';");
+                .prepareStatement("SELECT * FROM ohdm.geoobject WHERE name = '" + sensorType + "';");
         resultSet = statement.executeQuery();
         resultSet.next();
         if (resultSet.getRow() == 0) {
@@ -30,14 +30,14 @@ public class GeoObjectDb implements GeoObjectInterface {
         }
     }
 
-    public long addGeoObject(Sensor sensorData, long foreignKeyId) throws SQLException {
+    public long addGeoObject(Sensor sensorData, long userId) throws SQLException {
         long returnId;
         if (!checkIfIdExists(sensorData.getSensorType())) {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.geoobject (name, source_user_id) VALUES(?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, sensorData.getSensorType());
-            statement.setLong(2, foreignKeyId);
+            statement.setLong(2, userId);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();

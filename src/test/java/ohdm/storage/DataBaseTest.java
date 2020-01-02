@@ -38,7 +38,7 @@ public class DataBaseTest {
 
     @Before
     public void testIfDatabaseGetsConnected() {
-        database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
+        database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_test_db", "tester", "0000");
     }
     
     @Test
@@ -67,6 +67,11 @@ public class DataBaseTest {
        
     @Test
     public void testIfFineDustDataGetsAdded() throws SQLException {
+        
+    }
+    
+    @After
+    public void deleteTestEntries() {
         
     }
     

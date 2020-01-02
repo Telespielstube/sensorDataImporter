@@ -74,7 +74,7 @@ public class Sensor {
         samples.add(sample);
     }
     
-    public DataSample getDataSample(int index) {
+    public DataSample getDataSample(int index) throws ArrayIndexOutOfBoundsException {
         return samples.get(index);
     }
     

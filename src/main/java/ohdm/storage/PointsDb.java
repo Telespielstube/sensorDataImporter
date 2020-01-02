@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.lang.Object;
+import org.postgresql.geometric.*;
 
 import ohdm.bean.Sensor;
 
