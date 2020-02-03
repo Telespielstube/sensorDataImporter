@@ -8,16 +8,16 @@ public class Sensor {
     private int location;
     private float latitude;
     private float longitude;
-    private String timestamp;
+   // private String timestamp;
     private ArrayList<DataSample> samples;
 
-    public Sensor(int importedSensorId, String sensorType, int location, float latitude, float longitude, String timestamp) {
+    public Sensor(int importedSensorId, String sensorType, int location, float latitude, float longitude /*, String timestamp */) {
         this.importedSensorId = importedSensorId;
         this.sensorType = sensorType;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.timestamp = timestamp;
+     //   this.timestamp = timestamp;
         this.samples = new ArrayList<DataSample>();
     }
         
@@ -61,7 +61,7 @@ public class Sensor {
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
-
+/*
     public String getTimestamp() {
         return timestamp;
     }
@@ -69,7 +69,7 @@ public class Sensor {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
-    
+    */
     public void addDataSample(DataSample sample) {
         samples.add(sample);
     }

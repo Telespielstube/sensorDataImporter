@@ -3,6 +3,9 @@ package ohdm.storage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import ohdm.bean.Sensor;
 
@@ -15,6 +18,13 @@ public class TemperatureDb implements TemperatureInterface {
         this.db = db;
     }
 
+    public int convertTimestampToEpoch(String timestamp) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
+        Date date = simpleDateFormat.parse(timestamp);
+        long epoch = date.getTime();
+        return (int)(epoch/1000);
+    }
+    
     public void createTemperatureTable() throws SQLException {
         PreparedStatement statement = db.connection
                 .prepareStatement("CREATE TABLE IF NOT EXISTS ohdm.temperature_data\n" + 
@@ -34,13 +44,14 @@ public class TemperatureDb implements TemperatureInterface {
         statement.close();
     }
 
-    public void addDhtData(Sensor tempData, long foreignKeyId, long timestampId) throws SQLException {
+    public void addDhtData(Sensor dhtData, long foreignKeyId) throws SQLException, ParseException {
+        int unixTime = convertTimestampToEpoch(dhtData.getDataSample(0).getTimestamp());
         PreparedStatement statement = db.connection.prepareStatement(
-                "INSERT INTO ohdm.temperature_data (temperature, humidity, sensor_id, timestamp_id) VALUES(?, ?, ?, ?)");
-        statement.setFloat(1, tempData.getDataSample(0).getValue());
-        statement.setFloat(2, tempData.getDataSample(1).getValue());
-        statement.setLong(3, foreignKeyId);
-        statement.setLong(4, timestampId);
+                "INSERT INTO ohdm.temperature_data (temperature, humidity, timestamp_id, geoobject_id) VALUES(?, ?, ?, ?)");
+        statement.setFloat(1, dhtData.getDataSample(1).getValue());
+        statement.setFloat(2, dhtData.getDataSample(2).getValue());
+        statement.setLong(3, unixTime);
+        statement.setLong(4, foreignKeyId);
         statement.executeUpdate();
     }
 }

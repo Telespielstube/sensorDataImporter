@@ -17,7 +17,7 @@ public class DatabaseManager {
     private UserDb userDb = new UserDb(database);
     private GeoObjectDb geoObjectDb = new GeoObjectDb(database); 
     private GeoGeometryDb geoGeometryDb = new GeoGeometryDb(database);
-    private SensorDb sensorDb = new SensorDb(database);
+    private ImportedSensorDb sensorDb = new ImportedSensorDb(database);
     private ClassificationDb classificationDb = new ClassificationDb(database);
     private PointsDb pointsDb = new PointsDb(database);
     private TemperatureDb temperatureDb = new TemperatureDb(database);
@@ -49,20 +49,16 @@ public class DatabaseManager {
         System.out.println("Inserting sensor data...");
         Classification clazz = new Classification("sensor", "temperature");
         ExternalSystem dataSource = new ExternalSystem("luftdaten", "archive.luftdaten.info");
-        User user = new User(1, "LuftdatenImporter");
-        
+        User user = new User(1, "LuftdatenImporter");     
         long extSystemId = dataSourceDb.addDataSource(dataSource);
         long userId = userDb.addUser(user, extSystemId);
      
         for (int i = 0; i < sensorDataList.size(); ++i) {
-            if(sensorDataList.get(i).getSensorType().contains("DHT")) {
-                
-                
-                long clazzId = classificationDb.addClassification(clazz);
-               
+            if(sensorDataList.get(i).getSensorType().contains("DHT")) {               
+                long clazzId = classificationDb.addClassification(clazz);               
                 long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);              
                 long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
-                long sensorId = sensorDb.addImportedSensor(sensorDataList.get(i), geoObjectId);                   
+                sensorDb.addImportedSensor(sensorDataList.get(i), geoObjectId);                   
                 temperatureDb.addDhtData(sensorDataList.get(i), geoObjectId); 
              // long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), pointId, typeId=1(1 is Klassifikation Punkt), geoObjectId, clazzId, userId);
             }

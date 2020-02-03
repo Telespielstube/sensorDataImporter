@@ -7,13 +7,13 @@ import java.sql.Statement;
 
 import ohdm.bean.Sensor;
 
-public class SensorDb {
+public class ImportedSensorDb {
 
     private ConnectionDb db;
     private ResultSet resultSet = null;
     private long existingId;
 
-    public SensorDb(ConnectionDb db) {
+    public ImportedSensorDb(ConnectionDb db) {
         this.db = db;
     }
 
@@ -46,8 +46,7 @@ public class SensorDb {
         }
     }
 
-    public long addImportedSensor(Sensor sensorData, long geoObjectId) throws SQLException {
-        long returnId;
+    public void addImportedSensor(Sensor sensorData, long geoObjectId) throws SQLException {
         if (!checkIfIdExists(sensorData.getImportedSensorId())) {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.imported_sensor (imported_id, geoobject_id) VALUES(?, ?)",
@@ -57,10 +56,6 @@ public class SensorDb {
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            returnId = resultSet.getInt("id");
-        } else {
-            returnId = existingId;
         }
-        return returnId;
     }
 }
