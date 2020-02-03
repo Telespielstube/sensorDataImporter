@@ -4,13 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ohdm</groupId>
-	<artifactId>sensorDataImporter</artifactId>
+	<artifactId>LuftdatenImporter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sensorDataImporter</name>
 	<url>http://maven.apache.org</url>
-
 
 	<properties>
 	

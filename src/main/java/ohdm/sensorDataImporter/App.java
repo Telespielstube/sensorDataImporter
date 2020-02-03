@@ -21,10 +21,12 @@ public class App
     	Parser fileParser = new Parser();
     	File[] listOfFiles = null;
     	
+    	// Command line parameter parsing
     	CommandLine cmdLine = CommandLineParser.parse(args);
     	String path = cmdLine.getOptionValue("i");
     	String extractTo = cmdLine.getOptionValue("u");
     	
+    	// SEnsor data parsing
 		listOfFiles = fileReader.readFile(path, ".zip");
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo, ".csv");

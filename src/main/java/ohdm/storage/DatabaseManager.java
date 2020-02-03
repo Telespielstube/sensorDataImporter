@@ -56,12 +56,12 @@ public class DatabaseManager {
                 long clazzId = classificationDb.addClassification(clazz);
                 long extSystemId = dataSourceDb.addDataSource(dataSource);
                 long userId = userDb.addUser(user, extSystemId);
-                long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);
-               // long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), geoObjectId, clazzId, userId);
-               // long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
+                long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);              
+                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 long sensorId = sensorDb.addSensor(sensorDataList.get(i), geoObjectId);                   
                 long timestampId = timestampDb.addTimestampData(sensorDataList.get(i));
                 temperatureDb.addDhtData(sensorDataList.get(i), sensorId, timestampId); 
+             // long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), pointId, typeId=1(1 is Klassifikation Punkt), geoObjectId, clazzId, userId);
             }
         }
     }

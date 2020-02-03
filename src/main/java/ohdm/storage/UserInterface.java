@@ -8,7 +8,7 @@ public interface UserInterface {
    
     /** Checks if user id already exists in table.
     */
-    public boolean checkIfIdExists(int userId, String username) throws SQLException;
+    public boolean checkIfIdExists(int userId) throws SQLException;
         
         /** adds user informations to the table.
          * 

@@ -17,6 +17,7 @@ public class GeoGeometryDb implements GeoGeometryInterface {
         this.db = db;
     }
 
+    
     public long addGeoGeometry(Sensor sensorData, long geoObjectId, long clazzId, long userId) throws SQLException {
         long geometryId;
         Date today = new Date(System.currentTimeMillis());
@@ -29,8 +30,8 @@ public class GeoGeometryDb implements GeoGeometryInterface {
         statement.setLong(3, geoObjectId);
         statement.setString(4, null);
         statement.setLong(5, clazzId);
-        statement.setDate(6, today);
-        statement.setDate(7, today);
+        statement.setDate(6, today); // valid_since
+        statement.setDate(7, today); // valid_until
         statement.setLong(8, userId); 
         statement.executeUpdate();
         resultSet = statement.getGeneratedKeys();
