@@ -17,7 +17,7 @@ public class SensorDb {
         this.db = db;
     }
 
-    public void createSensorTable() throws SQLException {
+    public void createImportedSensorTable() throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("CREATE TABLE IF NOT EXISTS ohdm.imported_sensor\n" + 
                 "(\n" + 
                 "    id bigint NOT NULL DEFAULT nextval('ohdm.imported_sensor_sensor_id_seq'::regclass),\n" + 
@@ -46,7 +46,7 @@ public class SensorDb {
         }
     }
 
-    public long addSensor(Sensor sensorData, long geoObjectId) throws SQLException {
+    public long addImportedSensor(Sensor sensorData, long geoObjectId) throws SQLException {
         long returnId;
         if (!checkIfIdExists(sensorData.getImportedSensorId())) {
             PreparedStatement statement = db.connection.prepareStatement(

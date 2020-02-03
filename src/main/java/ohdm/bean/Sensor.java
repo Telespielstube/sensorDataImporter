@@ -21,7 +21,7 @@ public class Sensor {
         this.samples = new ArrayList<DataSample>();
     }
         
-    // Getter, setter
+    // Getters and setters
     public int getImportedSensorId() {
         return importedSensorId;
     }

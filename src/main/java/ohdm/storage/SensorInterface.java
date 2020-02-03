@@ -7,9 +7,9 @@ import ohdm.bean.Sensor;
 
 public interface SensorInterface {
     
-    /** Creates sensor_type table if it not exists already.
+    /** Creates imported_sensor table if it not exists already.
      */
-    public void createSensorTable() throws SQLException;
+    public void createImportedSensorTable() throws SQLException;
     
     /** Checks if id is already inserted into table.
      * 
@@ -19,11 +19,12 @@ public interface SensorInterface {
      */
     public boolean checkIfIdExists(ResultSet resultSet, int importedSensorId) throws SQLException;
     
-    /** Adds the sensor type to the sensor table.
+    /** Connects the imported sensor id to the geo_object id.
      * 
-     * @param parsedData        parsed essential sensor type data from the .csv file. 
+     * @param sensorData        parsed essential sensor type data from the .csv file. 
+     * @param geoObjectId       geoObject Id which is conntected to the source user id.
      * @return                  sensor type primary key or already inserted primary key. 
      * @throws SQLException     throws exception if some SQL query error occurs.
      */
-    public long addSensor(Sensor sensorData, long geoObjectId) throws SQLException;
+    public long addImportedSensor(Sensor sensorData, long geoObjectId) throws SQLException;
 }
