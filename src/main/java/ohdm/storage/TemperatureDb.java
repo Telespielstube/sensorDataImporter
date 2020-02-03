@@ -45,7 +45,7 @@ public class TemperatureDb implements TemperatureInterface {
     }
 
     public void addDhtData(Sensor dhtData, long foreignKeyId) throws SQLException, ParseException {
-        int unixTime = convertTimestampToEpoch(dhtData.getDataSample(0).getTimestamp());
+        int unixTime = convertTimestampToEpoch(dhtData.getTimestamp());
         PreparedStatement statement = db.connection.prepareStatement(
                 "INSERT INTO ohdm.temperature_data (temperature, humidity, timestamp_id, geoobject_id) VALUES(?, ?, ?, ?)");
         statement.setFloat(1, dhtData.getDataSample(1).getValue());

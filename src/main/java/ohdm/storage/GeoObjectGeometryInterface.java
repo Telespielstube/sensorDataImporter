@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 
-public interface GeoGeometryInterface {
+public interface GeoObjectGeometryInterface {
         
         /** Checks if data source already exists in table.
          */
@@ -13,5 +13,5 @@ public interface GeoGeometryInterface {
         
         /** adds the data source to the table.
          */
-        public long addGeoGeometry(Sensor sensorData, long geoObjectId, long clazzId, long userId) throws SQLException;
+        public long addGeoObjGeometry(Sensor sensorData, int pointId, int typeId, long geoObjectId, long clazzId, long userId) throws SQLException;
 }

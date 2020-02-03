@@ -1,6 +1,7 @@
 package ohdm.storage;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import ohdm.bean.Classification;
@@ -16,7 +17,7 @@ public class DatabaseManager {
     private ExternalSystemDb dataSourceDb = new ExternalSystemDb(database);
     private UserDb userDb = new UserDb(database);
     private GeoObjectDb geoObjectDb = new GeoObjectDb(database); 
-    private GeoGeometryDb geoGeometryDb = new GeoGeometryDb(database);
+    private GeoObjectGeometryDb geoObjGeometryDb = new GeoObjectGeometryDb(database);
     private ImportedSensorDb sensorDb = new ImportedSensorDb(database);
     private ClassificationDb classificationDb = new ClassificationDb(database);
     private PointsDb pointsDb = new PointsDb(database);
@@ -44,8 +45,11 @@ public class DatabaseManager {
     /** Depending on the .csv column sensor type data gets inserted to the apprpiate table.
      * 
      * @throws SQLException     is thrown if an sql insertion fails.
+     * @throws ParseException   is thrown if a parsing error occurs.
      */
-    public void insertSensorToDatabase() throws SQLException {
+    public void insertSensorToDatabase() throws SQLException, ParseException {
+        int typeId = 1 // 1 is the classification for points in ohdm.
+                
         System.out.println("Inserting sensor data...");
         Classification clazz = new Classification("sensor", "temperature");
         ExternalSystem dataSource = new ExternalSystem("luftdaten", "archive.luftdaten.info");
@@ -60,7 +64,7 @@ public class DatabaseManager {
                 long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 sensorDb.addImportedSensor(sensorDataList.get(i), geoObjectId);                   
                 temperatureDb.addDhtData(sensorDataList.get(i), geoObjectId); 
-             // long geometryId = geoGeometryDb.addGeoGeometry(sensorDataList.get(i), pointId, typeId=1(1 is Klassifikation Punkt), geoObjectId, clazzId, userId);
+                long geometryId = geoObjGeometryDb.addGeoObjGeometry(sensorDataList.get(i), pointId, typeId, geoObjectId, clazzId, userId);
             }
         }
     }

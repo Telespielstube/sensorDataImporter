@@ -4,8 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.lang.Object;
-import org.postgresql.geometric.*;
+import org.postgis.*;
 
 import ohdm.bean.Sensor;
 
@@ -37,10 +36,11 @@ public class PointsDb implements PointsInterface {
         long returnId;
         if (!checkIfPointsIdExists(sensorData.getLocation())) {
             PreparedStatement statement = db.connection.prepareStatement(
-                    "INSERT INTO ohdm.points " + "(point, source_user_id) VALUES(?, ?)",
+                    "INSERT INTO ohdm.points (point, source_user_id) VALUES(2, ST_SetSRID(ST_MakePoint(?, ?), 4326)", 
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setObject(1, sensorData.getLocation());
-            statement.setLong(2, foreignKeyId);
+            statement.setObject(1, sensorData.getLatitude());
+            statement.setObject(2, sensorData.getLongitude());
+            statement.setLong(3, foreignKeyId);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();

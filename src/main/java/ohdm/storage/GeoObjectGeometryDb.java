@@ -6,27 +6,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 import ohdm.bean.Sensor;
 
-public class GeoGeometryDb implements GeoGeometryInterface {
+public class GeoObjectGeometryDb implements GeoObjectGeometryInterface {
     private ConnectionDb db;
     private ResultSet resultSet = null;
     private long existingId;
 
-    public GeoGeometryDb(ConnectionDb db) {
+    public GeoObjectGeometryDb(ConnectionDb db) {
         this.db = db;
     }
 
     
-    public long addGeoGeometry(Sensor sensorData, long geoObjectId, long clazzId, long userId) throws SQLException {
+    public long addGeoObjGeometry(Sensor sensorData, int pointId, int typeId, long geoObjectId, long clazzId, long userId) throws SQLException {
         long geometryId;
         Date today = new Date(System.currentTimeMillis());
 
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.geoobject_geometry "
                 + "(id_target, type_target, id_geoobject_source, role, classification_id, valid_since, valid_until, source_user_id) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-        statement.setLong(1, 0);
-        statement.setInt(2,  0);
+        statement.setLong(1, pointId);
+        statement.setInt(2,  typeId);
         statement.setLong(3, geoObjectId);
         statement.setString(4, null);
         statement.setLong(5, clazzId);

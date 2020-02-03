@@ -5,18 +5,18 @@ import java.sql.SQLException;
 import ohdm.bean.Sensor;
 
 public interface PointsInterface {
-    /** Checks the ohdm.classification table if the subclassname already exists.
+    /** Checks the ohdm.points table if the id already exists.
      * 
      * @param subclassname      the sublcassname to check for.
      * @return                  the new inserted id or the already existing id of the subclassname.
      */
     public boolean checkIfPointsIdExists(int location) throws SQLException;
     
-    /** Adds the sensor classifications to the ohdm.classification table.
+    /** Adds the latitude and longitude angles to the ohdm.points table to mark the location of the sensor.
      * 
-     * @param classification    topic which classifies the object. in this context its sensor.
-     * @param subclassname      classifies the sensor type. e.g. fine dust sensor.
-     * @return                  classification id.
+     * @param sensorData        Sensor object.
+     * @param foreignKeyId      source_user_id connects the point to the user id.
+     * @return                  points id.
      */
     public long addPoint(Sensor sensorData, long foreignKeyId) throws SQLException;
 }
