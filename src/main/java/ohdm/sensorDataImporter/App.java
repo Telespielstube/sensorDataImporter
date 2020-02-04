@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
@@ -13,7 +14,7 @@ import ohdm.storage.DatabaseManager;
 
 public class App 
 {   
-    public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException  {
+    public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException, ParseException  {
     	ArrayList<Sensor> dataList = new ArrayList<>();
 
        	Unzip unzip = new Unzip();
@@ -21,10 +22,12 @@ public class App
     	Parser fileParser = new Parser();
     	File[] listOfFiles = null;
     	
+    	// Command line parameter parsing
     	CommandLine cmdLine = CommandLineParser.parse(args);
     	String path = cmdLine.getOptionValue("i");
     	String extractTo = cmdLine.getOptionValue("u");
     	
+    	// SEnsor data parsing
 		listOfFiles = fileReader.readFile(path, ".zip");
         unzip.fileUnzip(listOfFiles, extractTo);
         listOfFiles = fileReader.readFile(extractTo, ".csv");
@@ -33,6 +36,6 @@ public class App
         //Database operations
         DatabaseManager databaseManager = new DatabaseManager(dataList);
         databaseManager.createTables();
-        databaseManager.insertSensorToDatabase();
+        databaseManager.insertSensorIntoDatabase();
     }
 }

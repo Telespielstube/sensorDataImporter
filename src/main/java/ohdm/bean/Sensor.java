@@ -20,8 +20,9 @@ public class Sensor {
         this.timestamp = timestamp;
         this.samples = new ArrayList<DataSample>();
     }
-        
-    // Getter, setter
+
+
+    // Getters and setters
     public int getImportedSensorId() {
         return importedSensorId;
     }

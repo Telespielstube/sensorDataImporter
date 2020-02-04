@@ -11,6 +11,7 @@ public class Unzip {
 	/** Unzips files to the specified folder.
 	 * 
 	 * @param paths    path to the folder where the data gets unzipped.
+	 * @throws ZipException 
 	 */
 	public void fileUnzip(File[] fileList, String extractTo) {
 		int i = 0;
@@ -18,12 +19,12 @@ public class Unzip {
 		for (File file : fileList)	{
 			System.out.println(i);
 			i++;
-		try {
-			new ZipFile(file).extractAll(extractTo);
+			try {
+			    new ZipFile(file).extractAll(extractTo);
+			} catch (ZipException ze) {
+			    System.out.println("Caught exception at file:" + file.getName());
+			}
 			System.out.println(file + " Done");
-		} catch (ZipException e) {
-			e.printStackTrace();
-		}
 		}
 		System.out.println("Done");
 	}

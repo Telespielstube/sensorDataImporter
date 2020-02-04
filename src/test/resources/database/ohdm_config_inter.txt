@@ -1,6 +1,6 @@
 servername:localhost
 portnumber:5432
-username:tester
+username:marta
 pwd:0000
 dbname:postgis_test_db
 schema:intermediate
