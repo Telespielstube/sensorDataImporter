@@ -3,6 +3,9 @@ package ohdm.storage;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import ohdm.bean.Classification;
 import ohdm.bean.Sensor;
@@ -74,7 +77,7 @@ public interface SensorInterface {
      * @return                  parsed date.
      * @throws ParseException   is thrown if a parsing error occurs.
      */
-    public Date convertTimestampToDate(String timestamp) throws ParseException;
+    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException;
     
     /** Adds da
      * 

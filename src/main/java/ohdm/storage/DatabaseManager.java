@@ -14,11 +14,9 @@ public class DatabaseManager {
     private ArrayList<Sensor> sensorDataList;
     private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000"); 
     private Table table = new Table(database);
-    private UserInfo dataSourceDb = new UserInfo(database);
-    private UserDb userDb = new UserDb(database);
+    private UserInfo userInfo = new UserInfo(database);
     private Dht22 dht = new Dht22(database);
     private Ppd42 ppd = new Ppd42(database);
-    private FineDustDb fineDustDb = new FineDustDb(database);
       
     /** Constructor
      * 
@@ -33,9 +31,9 @@ public class DatabaseManager {
      */
     public void createTables() throws SQLException {
         System.out.println("Creating not existing tables...");
-        table.createImportedSensorTable();
-        table.createTemperatureTable();
         table.createFineDustTable();
+        table.createTemperatureTable();
+        table.createImportedSensorTable();
     }
 
     /** Depending on the .csv column sensor type data gets inserted to the appropriate table.
@@ -50,8 +48,8 @@ public class DatabaseManager {
         Classification clazz = new Classification("sensor", "temperature");
         ExternalSystem dataSource = new ExternalSystem("luftdaten", "archive.luftdaten.info");
         User user = new User(1, "LuftdatenImporter");     
-        long extSystemId = dataSourceDb.addDataSource(dataSource);
-        long userId = userDb.addUser(user, extSystemId);
+        long extSystemId = userInfo.addDataSource(dataSource);
+        long userId = userInfo.addUser(user, extSystemId);
      
         // Here is the section to add sensors.
         for (int i = 0; i < sensorDataList.size(); ++i) {

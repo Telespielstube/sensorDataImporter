@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
@@ -13,7 +14,7 @@ import ohdm.storage.DatabaseManager;
 
 public class App 
 {   
-    public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException  {
+    public static void main( String[] args ) throws FileNotFoundException, IOException, SQLException, ParseException  {
     	ArrayList<Sensor> dataList = new ArrayList<>();
 
        	Unzip unzip = new Unzip();

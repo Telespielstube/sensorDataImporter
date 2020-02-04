@@ -4,7 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import ohdm.bean.Classification;
 import ohdm.bean.Sensor;
@@ -15,26 +19,26 @@ public class Dht22 extends SensorType {
         super(db);
     }
 
-    public int convertTimestampToEpoch(String timestamp) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ");
-        Date date = simpleDateFormat.parse(timestamp);
-        long epoch = date.getTime();
-        return (int) (epoch / 1000);
+    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
+        
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
+        return date;
     }
 
     public void addDhtData(Sensor dhtData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        int unixTime = convertTimestampToEpoch(dhtData.getTimestamp());
+        LocalDateTime date = convertTimestampToDate(dhtData.getTimestamp());
         long clazzId = super.addClassification(clazz);
         long geoObjectId = super.addGeoObject(dhtData, userId);
         long pointId = super.addPoint(dhtData, userId);
         super.addImportedSensor(dhtData, geoObjectId);
         super.addGeoObjGeometry(dhtData, pointId, typeId, geoObjectId, clazzId, userId);
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.temperature_data "
-                + "(temperature, humidity, timestamp_id, geoobject_id) VALUES(?, ?, ?, ?)");
-        statement.setFloat(1, dhtData.getDataSample(1).getValue());
-        statement.setFloat(2, dhtData.getDataSample(2).getValue());
-        statement.setLong(3, unixTime);
+                + "(temperature, humidity, timestamp, geoobject_id) VALUES(?, ?, ?, ?)");
+        statement.setFloat(1, dhtData.getDataSample(0).getValue());
+        statement.setFloat(2, dhtData.getDataSample(1).getValue());
+        statement.setObject(3, date);
         statement.setLong(4, userId);
         statement.executeUpdate();
     }

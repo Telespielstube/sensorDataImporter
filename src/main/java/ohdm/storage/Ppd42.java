@@ -3,6 +3,9 @@ package ohdm.storage;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import ohdm.bean.Classification;
 import ohdm.bean.Sensor;
@@ -11,6 +14,13 @@ public class Ppd42 extends SensorType {
 
     public Ppd42(ConnectionDb db) {
         super(db);
+    }
+    
+    public int convertTimestampToEpoch(String timestamp) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSz", Locale.GERMANY);
+        Date date = simpleDateFormat.parse(timestamp);
+        long epoch = date.getTime();
+        return (int) (epoch / 1000);
     }
     
     public void addPpdData(Sensor ppdData, Classification clazz, int typeId, long userId) throws SQLException, ParseException {
