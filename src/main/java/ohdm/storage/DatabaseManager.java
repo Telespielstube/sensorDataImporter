@@ -8,20 +8,15 @@ import ohdm.bean.Classification;
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 import ohdm.bean.User;
-import ohdm.sensorType.*;
 
 public class DatabaseManager {
-    private Dht22 dht = new Dht22();
+  
     private ArrayList<Sensor> sensorDataList;
-    private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000");
+    private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000"); 
+    private Table table = new Table(database);
     private ExternalSystemDb dataSourceDb = new ExternalSystemDb(database);
     private UserDb userDb = new UserDb(database);
-    private GeoObjectDb geoObjectDb = new GeoObjectDb(database); 
-    private GeoObjectGeometryDb geoObjGeometryDb = new GeoObjectGeometryDb(database);
-    private ImportedSensorDb sensorDb = new ImportedSensorDb(database);
-    private ClassificationDb classificationDb = new ClassificationDb(database);
-    private PointsDb pointsDb = new PointsDb(database);
-    private TemperatureDb temperatureDb = new TemperatureDb(database);
+    private Dht22 dht = new Dht22(database);
     private FineDustDb fineDustDb = new FineDustDb(database);
       
     /** Constructor
@@ -37,9 +32,9 @@ public class DatabaseManager {
      */
     public void createTables() throws SQLException {
         System.out.println("Creating not existing tables...");
-        sensorDb.createImportedSensorTable();
-        temperatureDb.createTemperatureTable();
-        fineDustDb.createFineDustTable();
+        table.createImportedSensorTable();
+        table.createTemperatureTable();
+        table.createFineDustTable();
     }
 
     /** Depending on the .csv column sensor type data gets inserted to the apprpiate table.
@@ -59,14 +54,9 @@ public class DatabaseManager {
      
         for (int i = 0; i < sensorDataList.size(); ++i) {
             if(sensorDataList.get(i).getSensorType().contains("DHT")) {  
-                
-                long clazzId = classificationDb.addClassification(clazz);               
-                long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);              
-                long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
-                sensorDb.addImportedSensor(sensorDataList.get(i), geoObjectId);                   
-                temperatureDb.addDhtData(sensorDataList.get(i), geoObjectId); 
-                geoObjGeometryDb.addGeoObjGeometry(sensorDataList.get(i), pointId, typeId, geoObjectId, clazzId, userId);
+                dht.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
             }
+            // Add ppd and more sensors
         }
     }
 }
