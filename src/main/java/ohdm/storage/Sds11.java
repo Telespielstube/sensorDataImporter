@@ -1,4 +1,4 @@
-package ohdm.sensorType;
+package ohdm.storage;
 
 public class Sds11 extends Sensor {
 

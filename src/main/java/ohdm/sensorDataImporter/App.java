@@ -35,6 +35,6 @@ public class App
         //Database operations
         DatabaseManager databaseManager = new DatabaseManager(dataList);
         databaseManager.createTables();
-        databaseManager.insertSensorToDatabase();
+        databaseManager.insertSensorIntoDatabase();
     }
 }

@@ -47,8 +47,8 @@ public class DatabaseManager {
      * @throws SQLException     is thrown if an sql insertion fails.
      * @throws ParseException   is thrown if a parsing error occurs.
      */
-    public void insertSensorToDatabase() throws SQLException, ParseException {
-        int typeId = 1 // 1 is the classification for points in ohdm.
+    public void insertSensorIntoDatabase() throws SQLException, ParseException {
+        int typeId = 1; // 1 is the classification for points (location) in ohdm and applies for all sensors.
                 
         System.out.println("Inserting sensor data...");
         Classification clazz = new Classification("sensor", "temperature");
@@ -58,13 +58,14 @@ public class DatabaseManager {
         long userId = userDb.addUser(user, extSystemId);
      
         for (int i = 0; i < sensorDataList.size(); ++i) {
-            if(sensorDataList.get(i).getSensorType().contains("DHT")) {               
+            if(sensorDataList.get(i).getSensorType().contains("DHT")) {  
+                
                 long clazzId = classificationDb.addClassification(clazz);               
                 long geoObjectId = geoObjectDb.addGeoObject(sensorDataList.get(i), userId);              
                 long pointId = pointsDb.addPoint(sensorDataList.get(i), userId);
                 sensorDb.addImportedSensor(sensorDataList.get(i), geoObjectId);                   
                 temperatureDb.addDhtData(sensorDataList.get(i), geoObjectId); 
-                long geometryId = geoObjGeometryDb.addGeoObjGeometry(sensorDataList.get(i), pointId, typeId, geoObjectId, clazzId, userId);
+                geoObjGeometryDb.addGeoObjGeometry(sensorDataList.get(i), pointId, typeId, geoObjectId, clazzId, userId);
             }
         }
     }
