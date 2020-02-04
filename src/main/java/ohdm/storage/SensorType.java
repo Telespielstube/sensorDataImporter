@@ -1,23 +1,26 @@
 package ohdm.storage;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import ohdm.bean.Classification;
 import ohdm.bean.Sensor;
 
 public class SensorType implements SensorInterface {
 
-    private ConnectionDb db;
+    protected ConnectionDb db;
     private ResultSet resultSet = null;
     private int existingId = 0;
 
     public SensorType(ConnectionDb db) {
         this.db = db;
     }
-    
+
     @Override
     public boolean checkIfIdExists(String entryName) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.classification "
@@ -45,11 +48,12 @@ public class SensorType implements SensorInterface {
             return true;
         }
     }
+    
     @Override
     public boolean checkIfIdExists(Sensor sensorData) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("SELECT COUNT(point) "
                 + "FROM ohdm.points WHERE point = ST_SetSRID( ST_Point(?, ?), 4326);");
-        statement.setObject(1, );
+        statement.setObject(1, sensorData.getLongitude());
         statement.setObject(2, sensorData.getLatitude());
         resultSet = statement.executeQuery();
         resultSet.next();    
@@ -79,6 +83,7 @@ public class SensorType implements SensorInterface {
         return classId;
     }
     
+    @Override
     public long addGeoObject(Sensor sensorData, long userId) throws SQLException {
         long returnId;
         if (!checkIfIdExists(sensorData.getSensorType())) {
@@ -117,6 +122,7 @@ public class SensorType implements SensorInterface {
         return returnId;
     }
     
+    @Override
     public void addImportedSensor(Sensor sensorData, long geoObjectId) throws SQLException {
         if (!checkIfIdExists(sensorData.getImportedSensorId())) {
             PreparedStatement statement = db.connection.prepareStatement(
@@ -128,5 +134,40 @@ public class SensorType implements SensorInterface {
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
         }
+    }
+    
+    @Override
+    public void addGeoObjGeometry(Sensor sensorData, long pointId, int typeId, long geoObjectId, long clazzId,
+            long userId) throws SQLException, ParseException {
+        PreparedStatement statement;
+        Date parsedSampleDate = convertTimestampToDate(sensorData.getTimestamp());
+        if (!checkIfIdExists(pointId)) {
+            statement = db.connection.prepareStatement("INSERT INTO ohdm.geoobject_geometry "
+                    + "(id_target, type_target, id_geoobject_source, role, classification_id, valid_since, valid_until, source_user_id) "
+                    + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setLong(1, pointId);
+            statement.setInt(2, typeId);
+            statement.setLong(3, geoObjectId);
+            statement.setString(4, null);
+            statement.setLong(5, clazzId);
+            statement.setDate(6, parsedSampleDate); // valid_since
+            statement.setDate(7, parsedSampleDate); // valid_until
+            statement.setLong(8, userId);
+        } else {
+            statement = db.connection.prepareStatement(
+                    "INSERT INTO ohdm.geoobject_geometry " + "(valid_until) " + "VALUES(?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            statement.setDate(7, parsedSampleDate); // valid_until
+        }
+        statement.executeUpdate();
+        resultSet = statement.getGeneratedKeys();
+        resultSet.next();
+    }
+
+    @Override
+    public Date convertTimestampToDate(String timestamp) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = (Date) simpleDateFormat.parse(timestamp);
+        return date;
     }
 }
