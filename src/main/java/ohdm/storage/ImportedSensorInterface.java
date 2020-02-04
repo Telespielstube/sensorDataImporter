@@ -1,6 +1,5 @@
 package ohdm.storage;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ohdm.bean.Sensor;
@@ -17,7 +16,7 @@ public interface ImportedSensorInterface {
      * @return                      returns false if id is not already inserted or true if id is already in. 
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
-    public boolean checkIfIdExists(ResultSet resultSet, int importedSensorId) throws SQLException;
+    public boolean checkIfIdExists(long importedSensorId) throws SQLException;
     
     /** Connects the imported sensor id from the .csv file to the geo_object id.
      * 

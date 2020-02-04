@@ -10,7 +10,7 @@ public interface PointsInterface {
      * @param subclassname      the sublcassname to check for.
      * @return                  the new inserted id or the already existing id of the subclassname.
      */
-    public boolean checkIfPointsIdExists(int location) throws SQLException;
+    public boolean checkIfPointsIdExists(Sensor sensorData) throws SQLException;
     
     /** Adds the latitude and longitude angles to the ohdm.points table to mark the location of the sensor.
      * 

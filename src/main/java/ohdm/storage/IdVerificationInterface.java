@@ -3,6 +3,8 @@ package ohdm.storage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ohdm.bean.Sensor;
+
 public interface IdVerificationInterface {
     
     /** Checks the ohdm.classification table if the subclassname already exists.
@@ -25,7 +27,7 @@ public interface IdVerificationInterface {
      * @param subclassname      the sublcassname to check for.
      * @return                  the new inserted id or the already existing id of the subclassname.
      */
-    public boolean checkIfPointsIdExists(int location) throws SQLException;
+    public boolean checkIfPointsIdExists(Sensor sensorData) throws SQLException
     
     /** Checks if id is already inserted into table.
      * 
@@ -33,7 +35,7 @@ public interface IdVerificationInterface {
      * @return                      returns false if id is not already inserted or true if id is already in. 
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
-    public boolean checkIfIdExists(ResultSet resultSet, int importedSensorId) throws SQLException;
+    public boolean checkIfIdExists(long importedSensorId) throws SQLException;
     
     /** Checks the table if geometry location already exists.
      * 

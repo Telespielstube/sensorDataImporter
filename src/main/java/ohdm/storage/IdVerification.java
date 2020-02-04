@@ -1,5 +1,5 @@
 package ohdm.storage;
 
-public class IdVerification {
+public class IdVerification implements IdVerificationInterface {
 
 }

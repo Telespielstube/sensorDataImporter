@@ -18,9 +18,11 @@ public class PointsDb implements PointsInterface {
     }
     
     @Override
-    public boolean checkIfPointsIdExists(int location) throws SQLException {
+    public boolean checkIfPointsIdExists(Sensor sensorData) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("SELECT COUNT(point) "
-                + "FROM ohdm.points WHERE point = " + location + ";");
+                + "FROM ohdm.points WHERE point = ST_SetSRID( ST_Point(?, ?), 4326);");
+        statement.setObject(1, sensorData.getLongitude());
+        statement.setObject(2, sensorData.getLatitude());
         resultSet = statement.executeQuery();
         resultSet.next();    
         if (resultSet.getRow() == 0) {
@@ -34,12 +36,12 @@ public class PointsDb implements PointsInterface {
     @Override
     public long addPoint(Sensor sensorData, long foreignKeyId) throws SQLException {
         long returnId;
-        if (!checkIfPointsIdExists(sensorData.getLocation())) {
+        if (!checkIfPointsIdExists(sensorData)) {
             PreparedStatement statement = db.connection.prepareStatement(
                     "INSERT INTO ohdm.points (point, source_user_id) VALUES(2, ST_SetSRID(ST_MakePoint(?, ?), 4326)", 
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setObject(1, sensorData.getLatitude());
-            statement.setObject(2, sensorData.getLongitude());
+            statement.setObject(1, sensorData.getLongitude());
+            statement.setObject(2, sensorData.getLatitude());
             statement.setLong(3, foreignKeyId);
             statement.executeUpdate();
             resultSet = statement.getGeneratedKeys();

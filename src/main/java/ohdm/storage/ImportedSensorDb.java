@@ -33,7 +33,7 @@ public class ImportedSensorDb {
         statement.close();
     }
 
-    public boolean checkIfIdExists(int importedSensorId) throws SQLException {
+    public boolean checkIfIdExists(long importedSensorId) throws SQLException {
         PreparedStatement statement = db.connection.prepareStatement("SELECT * FROM ohdm.imported_sensor "
                 + "WHERE imported_id = " + importedSensorId + ";");
         resultSet = statement.executeQuery();
