@@ -24,7 +24,7 @@ public class DataBaseTest {
     static ConnectionDb database;
     static ClassificationDb classDb;
     static Classification clazz;
-    static ExternalSystemDb extSystemDb;
+    static UserInfo extSystemDb;
     static ExternalSystem ext;
     static UserDb userDb;
     static User user1;
@@ -62,7 +62,7 @@ public class DataBaseTest {
     
     @Test
     public void testIfExternalSystemGetsAdded() throws SQLException {
-        extSystemDb = new ExternalSystemDb(database);
+        extSystemDb = new UserInfo(database);
         ext = new ExternalSystem("luftdaten", "archive.luftdaten.info");
         foreignKeyId = extSystemDb.addDataSource(ext);
         Assert.assertEquals(true, extSystemDb.checkIfIdExists(ext.getName()));

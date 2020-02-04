@@ -14,9 +14,10 @@ public class DatabaseManager {
     private ArrayList<Sensor> sensorDataList;
     private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000"); 
     private Table table = new Table(database);
-    private ExternalSystemDb dataSourceDb = new ExternalSystemDb(database);
+    private UserInfo dataSourceDb = new UserInfo(database);
     private UserDb userDb = new UserDb(database);
     private Dht22 dht = new Dht22(database);
+    private Ppd42 ppd = new Ppd42(database);
     private FineDustDb fineDustDb = new FineDustDb(database);
       
     /** Constructor
@@ -37,7 +38,7 @@ public class DatabaseManager {
         table.createFineDustTable();
     }
 
-    /** Depending on the .csv column sensor type data gets inserted to the apprpiate table.
+    /** Depending on the .csv column sensor type data gets inserted to the appropriate table.
      * 
      * @throws SQLException     is thrown if an sql insertion fails.
      * @throws ParseException   is thrown if a parsing error occurs.
@@ -52,11 +53,14 @@ public class DatabaseManager {
         long extSystemId = dataSourceDb.addDataSource(dataSource);
         long userId = userDb.addUser(user, extSystemId);
      
+        // Here is the section to add sensors.
         for (int i = 0; i < sensorDataList.size(); ++i) {
-            if(sensorDataList.get(i).getSensorType().contains("DHT")) {  
+            if (sensorDataList.get(i).getSensorType().contains("DHT")) {  
                 dht.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
             }
-            // Add ppd and more sensors
+            if (sensorDataList.get(i).getSensorType().contains("PPD")) {
+                ppd.addPpdData(sensorDataList.get(i), clazz, typeId, userId);
+            }
         }
     }
 }
