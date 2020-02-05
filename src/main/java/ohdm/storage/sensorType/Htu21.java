@@ -13,32 +13,33 @@ import ohdm.bean.SubClassName;
 import ohdm.storage.ConnectionDb;
 import ohdm.storage.SensorType;
 
-public class Bmp180 extends SensorType {
-
-    public Bmp180(ConnectionDb db) {
+public class Htu21 extends SensorType {
+    
+    public Htu21(ConnectionDb db) {
         super(db);
     }
 
     public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
+        
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
         LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
         return date;
     }
-    
-    public void addBmpData(Sensor bmpData, Classification clazz, int typeId, long userId)
+
+    public void addhtuData(Sensor htuData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        LocalDateTime date = convertTimestampToDate(bmpData.getTimestamp());
+        LocalDateTime date = convertTimestampToDate(htuData.getTimestamp());
    
-        clazz.setSubClassificationName(SubClassName.airpressure.toString()); // Sets subclassName to temperature
+        clazz.setSubClassificationName(SubClassName.temperature.toString()); // Sets subclassName to temperature
         long clazzId = super.addClassification(clazz);
-        long geoObjectId = super.addGeoObject(bmpData, userId);
-        long pointId = super.addPoint(bmpData, userId);
-        super.addImportedSensor(bmpData, geoObjectId);
-        super.addGeoObjGeometry(bmpData, pointId, typeId, geoObjectId, clazzId, userId);
-        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.air_pressure_data "
-                + "(pressure, temperature, timestamp, geoobject_id) VALUES(?, ?, ?, ?)");
-        statement.setFloat(1, bmpData.getDataSample(0).getValue());
-        statement.setFloat(2, bmpData.getDataSample(1).getValue());
+        long geoObjectId = super.addGeoObject(htuData, userId);
+        long pointId = super.addPoint(htuData, userId);
+        super.addImportedSensor(htuData, geoObjectId);
+        super.addGeoObjGeometry(htuData, pointId, typeId, geoObjectId, clazzId, userId);
+        PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.temperature_data "
+                + "(temperature, humidity, timestamp, geoobject_id) VALUES(?, ?, ?, ?)");
+        statement.setFloat(1, htuData.getDataSample(0).getValue());
+        statement.setFloat(2, htuData.getDataSample(1).getValue());
         statement.setObject(3, date);
         statement.setLong(4, userId);
         

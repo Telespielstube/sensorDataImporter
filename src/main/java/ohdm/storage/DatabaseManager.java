@@ -8,7 +8,12 @@ import ohdm.bean.Classification;
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 import ohdm.bean.User;
-import ohdm.storage.sensorType.*;
+import ohdm.storage.sensorType.Bmp180;
+import ohdm.storage.sensorType.Bmp280;
+import ohdm.storage.sensorType.Dht22;
+import ohdm.storage.sensorType.Ppd42;
+import ohdm.storage.sensorType.Sds011;
+import ohdm.storage.sensorType.Sht31;
 
 public class DatabaseManager {
   
@@ -22,6 +27,7 @@ public class DatabaseManager {
     private Sht31 sht31 = new Sht31(database);
     private Bmp180 bmp180 = new Bmp180(database);
     private Bmp280 bmp280 = new Bmp280(database);
+    private Htu21 htu21 = new Htu21(database);
       
     /** Constructor
      * 

@@ -37,7 +37,7 @@ public class Ppd42 extends SensorType {
         super.addGeoObjGeometry(ppdData, pointId, typeId, geoObjectId, clazzId, userId);
 
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.fine_dust_data "
-                + "(pm10, dur_pm10, ratio_pm10, pm25, dur_pm25, ratio_pm25, pm0, timestamp, fine_dust_sensor_id_fkey) "
+                + "(pm10, dur_pm10, ratio_pm10, pm25, dur_pm25, ratio_pm25, timestamp, geoobject_id) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
         statement.setFloat(1, ppdData.getDataSample(0).getValue());
         statement.setFloat(2, ppdData.getDataSample(1).getValue());
