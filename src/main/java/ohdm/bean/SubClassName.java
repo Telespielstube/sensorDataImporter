@@ -3,6 +3,6 @@ package ohdm.bean;
 public enum SubClassName {
     finedust,
     temperature,
-    noise,
+    noise, // not yet in the archive
     airpressure;   
 }

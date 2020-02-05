@@ -19,6 +19,13 @@ public interface TableInterface {
     public void createTemperatureTable() throws SQLException;
     
     /**
+     *  Creates table for air pressure data if not exists.
+     *  
+     * @throws SQLException     is thrown if a sql error occurs.
+     */ 
+    public void createAirPressureTable() throws SQLException;
+    
+    /**
      * Creates table for imported sensor ids if it not exists.
      * 
      * @throws SQLException     is thrown if a sql error occurs.

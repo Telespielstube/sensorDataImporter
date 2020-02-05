@@ -16,10 +16,12 @@ public class DatabaseManager {
     private ConnectionDb database = new ConnectionDb("jdbc:postgresql://localhost:5432/postgis_ohdm", "marta", "0000"); 
     private Table table = new Table(database);
     private UserInfo userInfo = new UserInfo(database);
-    private Dht22 dht = new Dht22(database);
-    private Ppd42 ppd = new Ppd42(database);
-    private Sds011 sds = new Sds011(database);
-    private Sht31 sht = new Sht31(database);
+    private Dht22 dht22 = new Dht22(database);
+    private Ppd42 ppd42 = new Ppd42(database);
+    private Sds011 sds011 = new Sds011(database);
+    private Sht31 sht31 = new Sht31(database);
+    private Bmp180 bmp180 = new Bmp180(database);
+    private Bmp280 bmp280 = new Bmp280(database);
       
     /** Constructor
      * 
@@ -36,6 +38,7 @@ public class DatabaseManager {
         System.out.println("Creating not existing tables...");
         table.createFineDustTable();
         table.createTemperatureTable();
+        table.createAirPressureTable();
         table.createImportedSensorTable();
     }
 
@@ -57,19 +60,27 @@ public class DatabaseManager {
         // Here is the section to add sensors.
         for (int i = 0; i < sensorDataList.size(); ++i) {
             if (sensorDataList.get(i).getSensorType().contains("DHT")) {  
-                dht.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
+                dht22.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
             if (sensorDataList.get(i).getSensorType().contains("PPD")) {
-                ppd.addPpdData(sensorDataList.get(i), clazz, typeId, userId);
+                ppd42.addPpdData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
             if (sensorDataList.get(i).getSensorType().contains("SDS")) {
-                sds.addSdsData(sensorDataList.get(i), clazz, typeId, userId);
+                sds011.addSdsData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
-            if (sensorDataList.get(i).getSensorType().contains("DHT")) {  
-                sht.addShtData(sensorDataList.get(i), clazz, typeId, userId);
+            if (sensorDataList.get(i).getSensorType().contains("SHT")) {  
+                sht31.addShtData(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
+            if (sensorDataList.get(i).getSensorType().contains("BMP180")) {
+                bmp180.addBmpData(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
+            if (sensorDataList.get(i).getSensorType().contains("BMP280")) {
+                bmp280.addBmpData(sensorDataList.get(i), clazz, typeId, userId);
             }
         }
     }
