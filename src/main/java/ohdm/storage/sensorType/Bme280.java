@@ -36,7 +36,7 @@ public class Bme280 extends SensorType {
         super.addImportedSensor(bmeData, geoObjectId);
         super.addGeoObjGeometry(bmeData, pointId, typeId, geoObjectId, clazzId, userId);
         PreparedStatement statement = db.connection.prepareStatement("INSERT INTO ohdm.air_pressure_data "
-                + "(pressure, temperature, , humidity, timestamp, geoobject_id) VALUES(?, ?, ?, ?)");
+                + "(pressure, temperature, , humidity, timestamp, geoobject_id) VALUES(?, ?, ?, ?, ?)");
         statement.setFloat(1, bmeData.getDataSample(0).getValue());
         statement.setFloat(2, bmeData.getDataSample(1).getValue());
         statement.setFloat(3, bmeData.getDataSample(2).getValue());

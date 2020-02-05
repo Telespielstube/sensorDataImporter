@@ -26,6 +26,6 @@ public class Unzip {
 			}
 			System.out.println(file + " Done");
 		}
-		System.out.println("Done");
+		System.out.println("Extracting done");
 	}
 }

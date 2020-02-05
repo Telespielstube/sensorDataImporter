@@ -16,6 +16,7 @@ public class Parser {
     ArrayList<Sensor> sensorList = new ArrayList<>();
     ArrayList<DataSample> dataSampleList = new ArrayList<>();
 
+    // Standard constructor, no parameters.
     public Parser() {}
 
     /**
@@ -51,14 +52,24 @@ public class Parser {
                     // skip rows that have no sensor data
                     if (values.length <= 6)
                         continue;
-
+                    System.out.println(values[1].toString() +", " 
+                        + values[2].toString() +", " 
+                        + values[3].toString() +", " 
+                        + values[4].toString() +", " 
+                        + values[4].toString() +", " 
+                        + values[5].toString());
                     Sensor sensorData = new Sensor(Integer.valueOf(values[0]), values[1], Integer.valueOf(values[2]),
                             Float.valueOf(values[3]), Float.valueOf(values[4]), values[5]);
                     for (int i = 6; i < values.length; ++i) {
+                        if (values[i].isEmpty()) {
+                            continue;
+                        }
+                        System.out.println(headers[i].toString() + ", " + values[i].toString());
                         sensorData.addDataSample(new DataSample(headers[i], Float.valueOf(values[i])));
                     }
                     sensorList.add(sensorData);
                 } catch (NumberFormatException e) {
+                    System.out.println(e);
                     continue;
                 } catch (ArrayIndexOutOfBoundsException exp) {
                     continue;

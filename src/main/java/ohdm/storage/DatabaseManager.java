@@ -86,7 +86,7 @@ public class DatabaseManager {
                 bmp280.addBmpData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
-            if (sensorDataList.get(i).getSensorType().contains("BME280")) {
+            if (sensorDataList.get(i).getSensorType().contains("BME")) {
                 bme280.addBmeData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
