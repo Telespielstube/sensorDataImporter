@@ -24,7 +24,7 @@ public class Hpm extends SensorType {
         return date;
     }
 
-    public void addhpmData(Sensor hpmData, Classification clazz, int typeId, long userId)
+    public void addHpmData(Sensor hpmData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
         LocalDateTime date = convertTimestampToDate(hpmData.getTimestamp());
         clazz.setSubClassificationName(SubClassName.finedust.toString()); // Sets subClassName to finedust 

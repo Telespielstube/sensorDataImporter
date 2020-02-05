@@ -26,7 +26,7 @@ public class Htu21 extends SensorType {
         return date;
     }
 
-    public void addhtuData(Sensor htuData, Classification clazz, int typeId, long userId)
+    public void addHtuData(Sensor htuData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
         LocalDateTime date = convertTimestampToDate(htuData.getTimestamp());
    

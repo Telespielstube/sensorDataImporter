@@ -68,6 +68,7 @@ public class Table implements TableInterface {
                         + "    altitude real,\n" 
                         + "    pressure_sealevel real,\n"
                         + "    temperature real,\n" 
+                        + "    humidity real,\n"
                         + "    \"timestamp\" timestamp(4) without time zone,\n"
                         + "    geoobject_id bigint,\n" 
                         + "    CONSTRAINT air_pressure_pkey PRIMARY KEY (id),\n"
