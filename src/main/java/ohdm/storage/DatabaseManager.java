@@ -8,8 +8,7 @@ import ohdm.bean.Classification;
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 import ohdm.bean.User;
-import ohdm.storage.sensorType.Dht22;
-import ohdm.storage.sensorType.Ppd42;
+import ohdm.storage.sensorType.*;
 
 public class DatabaseManager {
   
@@ -19,6 +18,8 @@ public class DatabaseManager {
     private UserInfo userInfo = new UserInfo(database);
     private Dht22 dht = new Dht22(database);
     private Ppd42 ppd = new Ppd42(database);
+    private Sds011 sds = new Sds011(database);
+    private Sht31 sht = new Sht31(database);
       
     /** Constructor
      * 
@@ -58,8 +59,17 @@ public class DatabaseManager {
             if (sensorDataList.get(i).getSensorType().contains("DHT")) {  
                 dht.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
             }
+            
             if (sensorDataList.get(i).getSensorType().contains("PPD")) {
                 ppd.addPpdData(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
+            if (sensorDataList.get(i).getSensorType().contains("SDS")) {
+                sds.addSdsData(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
+            if (sensorDataList.get(i).getSensorType().contains("DHT")) {  
+                sht.addShtData(sensorDataList.get(i), clazz, typeId, userId);
             }
         }
     }

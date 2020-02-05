@@ -1,7 +1,8 @@
-package ohdm.storage;
+package ohdm.bean;
 
 public enum SubClassName {
     finedust,
     temperature,
-    noise;
+    noise,
+    airpressure;   
 }
