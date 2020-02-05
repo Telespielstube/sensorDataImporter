@@ -8,6 +8,8 @@ import ohdm.bean.Classification;
 import ohdm.bean.ExternalSystem;
 import ohdm.bean.Sensor;
 import ohdm.bean.User;
+import ohdm.storage.sensorType.Dht22;
+import ohdm.storage.sensorType.Ppd42;
 
 public class DatabaseManager {
   
@@ -45,7 +47,7 @@ public class DatabaseManager {
         int typeId = 1; // 1 is the classification for points (location) in ohdm and applies for all sensors.
                 
         System.out.println("Inserting sensor data...");
-        Classification clazz = new Classification("sensor", "temperature");
+        Classification clazz = new Classification("sensor");
         ExternalSystem dataSource = new ExternalSystem("luftdaten", "archive.luftdaten.info");
         User user = new User(1, "LuftdatenImporter");     
         long extSystemId = userInfo.addDataSource(dataSource);

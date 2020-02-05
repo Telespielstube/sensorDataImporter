@@ -33,11 +33,7 @@ public interface SensorInterface {
      * @throws SQLException         throws exception if some SQL query error occurs.
      */
     public boolean checkIfIdExists(long entryId) throws SQLException;
-    
-    
-    
-    
-    
+      
     /** Adds the sensor classifications to the ohdm.classification table.
      * 
      * @param classification    topic which classifies the object. in this context its sensor.

@@ -12,9 +12,8 @@ public class Classification {
 	private String classification = null;
 	private String subClassificationName = null; // e.g. fine dust, temperature
 	
-	public Classification(String classification, String subClassName) {
+	public Classification(String classification) {
 	    this.classification = classification;
-	    this.subClassificationName = subClassName;
 	}
 	
 	@Id
@@ -43,5 +42,5 @@ public class Classification {
 	
 	public void setSubClassificationName(String subClasssificationName) {
 	    this.subClassificationName = subClasssificationName;
-	}
+	} 
 } 
