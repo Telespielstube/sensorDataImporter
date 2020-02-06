@@ -60,7 +60,7 @@ To open and edit/update your crontab file, type the following at your shell prom
 `crontab -e`
 This opens your prefered text editor (fx. vi, vim, nano), if you have not specified a cron job before, the file should be empty. Now, add your routine:
 
-For example, if you would like to shedule a job for every week on monday at 10 a.m. the command would look like:
+For example, if you would like to shedule a job for every week on monday at 10 a.m. the command would look like:\
 `0 10 * * 1 cd /User/marta && ./sensorDataDownloader.sh ~/Downloads/luftdaten` 
 
 In short, the first fields means minute, hour, day of months, month, day of week followed by the command (in this example, changing into a folder and then running the shell script). 
