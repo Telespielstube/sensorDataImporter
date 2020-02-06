@@ -1,18 +1,18 @@
 # SensorDataImporter 
 
 # Table Of Contents
-1. Overview
-2. Installation
-2.1 Building the Java application from source
-3. Invoking
-3.1 sensorDataImporter.sh
-3.1.1 Seting up the cron job
-3.2 LuftdatenImporter.jar
-4. Functionality
-4.1 sensorDataDownloader.sh
-4.2 LuftdatenImporter.jar
-4.2.1 Parser
-4.2.2 Database Manager
+1. Overview\
+2. Installation\
+2.1 Building the Java application from source\
+3. Invoking\
+3.1 sensorDataImporter.sh\
+3.1.1 Seting up the cron job\
+3.2 LuftdatenImporter.jar\
+4. Functionality\
+4.1 sensorDataDownloader.sh\
+4.2 LuftdatenImporter.jar\
+4.2.1 Parser\
+4.2.2 Database Manager\
 
 
 # 1. Overview
