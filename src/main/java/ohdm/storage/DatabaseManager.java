@@ -25,7 +25,7 @@ public class DatabaseManager {
     private Htu21 htu21 = new Htu21(database);
     private Hpm hpm = new Hpm(database);
     private Ds18B20 ds18b20 = new Ds18B20(database);
-    private Pms pms = new Pms(database);
+    
     /** Constructor
      * 
      * @param sensorDataList  holds the complete list of parsed data from the csv files.
@@ -97,10 +97,7 @@ public class DatabaseManager {
             if (sensorDataList.get(i).getSensorType().contains("HTU")) {
                 htu21.addHtuData(sensorDataList.get(i), clazz, typeId, userId);
             }
-            
-            if (sensorDataList.get(i).getSensorType().contains("PMS")) {
-                pms.addPmsData(sensorDataList.get(i), clazz, typeId, userId);
-            }
+
         }
     }
 }
