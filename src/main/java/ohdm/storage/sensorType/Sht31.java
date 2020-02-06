@@ -19,16 +19,9 @@ public class Sht31 extends SensorType {;
         super(db);
     }
 
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
-        
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
-        return date;
-    }
-
     public void addShtData(Sensor shtData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        LocalDateTime date = convertTimestampToDate(shtData.getTimestamp());
+        LocalDateTime date = super.convertStringToTimestamp(shtData.getTimestamp());
    
         clazz.setSubClassificationName(SubClassName.temperature.toString()); // Sets subclassName to temperature
         long clazzId = super.addClassification(clazz);
@@ -41,7 +34,7 @@ public class Sht31 extends SensorType {;
         statement.setFloat(1, shtData.getDataSample(0).getValue());
         statement.setFloat(2, shtData.getDataSample(1).getValue());
         statement.setObject(3, date);
-        statement.setLong(4, userId);
+        statement.setLong(4, geoObjectId);
         
         statement.executeUpdate();
     }

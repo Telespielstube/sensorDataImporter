@@ -73,7 +73,15 @@ public interface SensorInterface {
      * @return                  parsed date.
      * @throws ParseException   is thrown if a parsing error occurs.
      */
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException;
+    public LocalDate convertStringToDate(String timestamp) throws ParseException;
+    
+    /** Parses the string timestamp to Date format yyyy-MM-dd'T'hh:mm:ss.
+     * 
+     * @param timestamp         timestamp as string
+     * @return                  parsed timestamp.
+     * @throws ParseException   is thrown if a parsing error occurs.
+     */
+    public LocalDateTime convertStringToTimestamp(String timestamp) throws ParseException;
     
     /** Adds da
      * 

@@ -18,15 +18,10 @@ public class Sds011 extends SensorType {
         super(db);
     }
 
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
-        return date;
-    }
 
     public void addSdsData(Sensor sdsData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        LocalDateTime date = convertTimestampToDate(sdsData.getTimestamp());
+        LocalDateTime date = super.convertStringToTimestamp(sdsData.getTimestamp());
         clazz.setSubClassificationName(SubClassName.finedust.toString()); // Sets subClassName to finedust 
         
         long clazzId = super.addClassification(clazz);
@@ -41,7 +36,7 @@ public class Sds011 extends SensorType {
         statement.setFloat(1, sdsData.getDataSample(0).getValue());
         statement.setFloat(2, sdsData.getDataSample(1).getValue());
         statement.setObject(3, date);
-        statement.setLong(4, userId);
+        statement.setLong(4, geoObjectId);
 
         statement.executeUpdate();
     }

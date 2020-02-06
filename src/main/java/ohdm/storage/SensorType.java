@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 import ohdm.bean.Classification;
@@ -143,7 +144,8 @@ public class SensorType implements SensorInterface {
     public void addGeoObjGeometry(Sensor sensorData, long pointId, int typeId, long geoObjectId, long clazzId,
             long userId) throws SQLException, ParseException {
         PreparedStatement statement;
-        LocalDateTime parsedSampleDate = convertTimestampToDate(sensorData.getTimestamp());
+        LocalDate parsedSampleDate = convertStringToDate(sensorData.getTimestamp());
+        
         if (!checkIfIdExists(pointId)) {
             statement = db.connection.prepareStatement("INSERT INTO ohdm.geoobject_geometry "
                     + "(id_target, type_target, id_geoobject_source, role, classification_id, valid_since, valid_until, source_user_id) "
@@ -168,12 +170,16 @@ public class SensorType implements SensorInterface {
     }
 
     @Override
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
+    public LocalDate convertStringToDate(String timestamp) throws ParseException {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 10), dateFormatter);
-        /*
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        OffsetDateTime date = simpleDateFormat.parse(timestamp); */
+        LocalDate date = LocalDate.parse(timestamp.substring(0, 10), dateFormatter);
+        return date;
+    }
+    
+    @Override
+    public LocalDateTime convertStringToTimestamp(String timestamp) throws ParseException {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
         return date;
     }
 }

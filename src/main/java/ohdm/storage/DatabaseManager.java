@@ -20,12 +20,12 @@ public class DatabaseManager {
     private Ppd42 ppd42 = new Ppd42(database);
     private Sds011 sds011 = new Sds011(database);
     private Sht31 sht31 = new Sht31(database);
-    private Bmp180 bmp180 = new Bmp180(database);
-    private Bmp280 bmp280 = new Bmp280(database);
+    private Bmp bmp180 = new Bmp(database);
     private Bme280 bme280 = new Bme280(database);
     private Htu21 htu21 = new Htu21(database);
     private Hpm hpm = new Hpm(database);
-    private Pms1003 pms1003 = new Pms1003(database);
+    private Ds18B20 ds18b20 = new Ds18B20(database);
+    private Pms pms = new Pms(database);
     /** Constructor
      * 
      * @param sensorDataList  holds the complete list of parsed data from the csv files.
@@ -66,6 +66,10 @@ public class DatabaseManager {
                 dht22.addDhtData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
+            if (sensorDataList.get(i).getSensorType().contains("DS18")) {  
+                ds18b20.addDs18Data(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
             if (sensorDataList.get(i).getSensorType().contains("PPD")) {
                 ppd42.addPpdData(sensorDataList.get(i), clazz, typeId, userId);
             }
@@ -78,12 +82,8 @@ public class DatabaseManager {
                 sht31.addShtData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
-            if (sensorDataList.get(i).getSensorType().contains("BMP180")) {
+            if (sensorDataList.get(i).getSensorType().contains("BMP")) {
                 bmp180.addBmpData(sensorDataList.get(i), clazz, typeId, userId);
-            }
-            
-            if (sensorDataList.get(i).getSensorType().contains("BMP280")) {
-                bmp280.addBmpData(sensorDataList.get(i), clazz, typeId, userId);
             }
             
             if (sensorDataList.get(i).getSensorType().contains("BME")) {
@@ -96,6 +96,10 @@ public class DatabaseManager {
             
             if (sensorDataList.get(i).getSensorType().contains("HTU")) {
                 htu21.addHtuData(sensorDataList.get(i), clazz, typeId, userId);
+            }
+            
+            if (sensorDataList.get(i).getSensorType().contains("PMS")) {
+                pms.addPmsData(sensorDataList.get(i), clazz, typeId, userId);
             }
         }
     }

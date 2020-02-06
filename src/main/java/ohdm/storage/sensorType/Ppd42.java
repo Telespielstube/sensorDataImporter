@@ -19,15 +19,9 @@ public class Ppd42 extends SensorType {
         super(db);
     }
 
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
-        return date;
-    }
-
     public void addPpdData(Sensor ppdData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        LocalDateTime date = convertTimestampToDate(ppdData.getTimestamp());
+        LocalDateTime date = super.convertStringToTimestamp(ppdData.getTimestamp());
         
         clazz.setSubClassificationName(SubClassName.finedust.toString()); // Sets subClassName to finedust
         long clazzId = super.addClassification(clazz);
@@ -46,7 +40,7 @@ public class Ppd42 extends SensorType {
         statement.setFloat(5, ppdData.getDataSample(4).getValue());
         statement.setFloat(6, ppdData.getDataSample(5).getValue());
         statement.setObject(7, date);
-        statement.setLong(8, userId);
+        statement.setLong(8, geoObjectId);
 
         statement.executeUpdate();
     }

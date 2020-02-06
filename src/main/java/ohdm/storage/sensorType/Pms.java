@@ -13,20 +13,14 @@ import ohdm.bean.SubClassName;
 import ohdm.storage.ConnectionDb;
 import ohdm.storage.SensorType;
 
-public class Pms1003 extends SensorType {
-    public Pms1003(ConnectionDb db) {
+public class Pms extends SensorType {
+    public Pms(ConnectionDb db) {
         super(db);
     }
 
-    public LocalDateTime convertTimestampToDate(String timestamp) throws ParseException {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-        LocalDateTime date = LocalDateTime.parse(timestamp.substring(0, 19).replace('T', ' '), dateFormatter);
-        return date;
-    }
-
-    public void addpmsData(Sensor pmsData, Classification clazz, int typeId, long userId)
+    public void addPmsData(Sensor pmsData, Classification clazz, int typeId, long userId)
             throws SQLException, ParseException {
-        LocalDateTime date = convertTimestampToDate(pmsData.getTimestamp());
+        LocalDateTime date = super.convertStringToTimestamp(pmsData.getTimestamp());
         clazz.setSubClassificationName(SubClassName.finedust.toString()); // Sets subClassName to finedust 
         
         long clazzId = super.addClassification(clazz);
@@ -40,8 +34,9 @@ public class Pms1003 extends SensorType {
                 + "VALUES(?, ?, ?, ?, ?)");
         statement.setFloat(1, pmsData.getDataSample(0).getValue());
         statement.setFloat(2, pmsData.getDataSample(1).getValue());
-        statement.setObject(3, date);
-        statement.setLong(4, userId);
+        statement.setFloat(3, pmsData.getDataSample(2).getValue());
+        statement.setObject(4, date);
+        statement.setLong(5, geoObjectId);
 
         statement.executeUpdate();
     }
