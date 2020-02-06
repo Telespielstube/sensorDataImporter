@@ -83,63 +83,81 @@ In short, the first fields means minute, hour, day of months, month, day of week
 e.g.
 `java -jar LuftdatenImporter-1.0.jar -i ~/Downloads/luftdaten -u ~/Documents/extractedLuftdaten`
 
-
-
 # 4. Functionality   
 
-## 4.1 Shell script
+## 4.1 sensorDataDownloader.sh
 The script uses the free-utility wget for file download:
 
 The URL to the Luftdaten archive is assigned to the variable URL 
-URL=https://archive.luftdaten.info/csv_per_month/
+`URL=https://archive.luftdaten.info/csv_per_month/`
 
 The path to the download folder is assigned to the DIR variable:
-DIR=~/Documents/archive.luftdaten.info/
+`DIR=~/Documents/archive.luftdaten.info/~
 
 This makes the wget comand more readable
-wget -A "*dht22*" -c -nd -r -np -P $DIR -R "index.html*" --cut-dirs=2 $URL
+`wget -A "*dht22*" -c -nd -r -np -P $DIR -R "index.html*" --cut-dirs=2 $URL`
 
 Used options in the wget command:
--A --accept	
+`-A --accept`
 	Specify comma-sperated lists of file name suffixes or patterns to accept. E.g. a pattern like "*dht22*" 
 
--c --continue
+`-c --continue`
 	In case the connection gets lost download, wget can resume downloading where it stopped before the interruption.
 	!!! pretty useful for large amount of data.!!!
 
--nd --no-directory
-"	Does not create a hierarchy of directories when retrieving recursively. With this option turned on, all files 
+`-nd --no-directory`
+	Does not create a hierarchy of directories when retrieving recursively. With this option turned on, all files 
 	will get saved to the current directory
 
--r --recursive
+`-r --recursive`
 	turn on recursive download.
 	
--np --no-parent
+`-np --no-parent`
 	Do not ever ascend to the parent directory when retrieving recursively. This option is a useful option, 
 	since it guarantees that only the files below a certain hierarchy will be downloaded.
 
--P --directory-prefix
+`-P --directory-prefix`
 	To save the file in a different location. Like the $DIR variable.
 
--R --reject
+`-R --reject`
 	Specify comma-sperated lists of file name suffixes or patterns to reject. E.g. a pattern like "index.html*"
 
---cut-dirs=2
+`--cut-dirs=2`
 	Ignore number directory components. This option is useful for getting a fine-grained control over 
 	the directory where recursive retrieval will be saved.
 
-For more information about wget go to: https://www.gnu.org/software/wget/manual/wget.html#Overview 	
+For more information about wget go to: [GNU wget manual](https://www.gnu.org/software/wget/manual/wget.html#Overview) 	
 	
 	
-4.2 LuftdatenImporter.jar
+## 4.2 LuftdatenImporter.jar
+### Parser
 The application reads all .zip files from the specified path in the first argument and extracts all files to the path specified in the second argument.
 Then parses all extracted .csv files based on their header length to a sensor object with its associated values. 
+The first 5 field attributes belong to the sensor object, the following attributes mark the measured data (number varies from sensor to sensor).
 
 E.g. a csv file containing DHT data looks like this:
-sensor_id;	sensor_type;	location;	lat;	lon;	timestamp;							temperature;	humidity
-48;			DHT22;			19;			48.722;	9.209;	2016-01-01T00:00:05.737592+00:00;	21.5;			45.00
+insert picture
 
-The first 5 attributes belong to the sensor object, the following attributes mark the measured data (number varies from sensor to sensor).
+### Database Manager
+The methode `createTables()` in the database manager class creates the needed tables to insert sensor data to ohm. The following tables are added:
+* air_pressure
+* fine_dust_data
+* temperature_data
+* imported_sensor
+
+The methode `insertSensorIntoDatabase()` adds the following entries for all sensors:
+* Inserts a username and an id into the external_user table.
+* Inserts an system name and a description of the data source. E.g. luftdaten and archive.luftdaten.info
+
+Next is checking every sensor_type field if it contains a known sensor and calls the corresponding methode for inserting the sensor data into the ohdm database. The methode inserts the following sensor related data to the corresponding tables. 
+* Sensor classification like temperature, fine dust ...
+* Geo Object entry which stores the sensor type and a reference to the user
+* Points indicates the location of the sensor. The methode to convert from latitude and longitude in the .csv file to a geometry object uses the WKT language.
+* ImportedSensor entry connects the .csv sensor id to the ohdm database id.
+* The entry in the geoobject_geometry table to all previous entries like userId, sensorId, pointsId, geoobjectId and how long the sensor is valid based on the location. 
+* Inserts the meassurement of the sensor to the corresponding table.
+* Inserts the converted .csv string date to a postgres timestamp data type.
+* References the geoobject id in the geoobject table.
 
 Supported and tested sensors are:
 PPD42
