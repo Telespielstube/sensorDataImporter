@@ -120,10 +120,6 @@ For more information about wget go to: [GNU wget manual](https://www.gnu.org/sof
 ### 4.2.1 Parser
 The application reads all .zip files from the specified path in the first argument and extracts all files to the path specified in the second argument.
 Then, it parses all extracted .csv files based on their header length to sensor objects with its associated values. 
-The first 5 field attributes belong to the sensor object, the following attributes mark the measured data (number varies from sensor to sensor).
-
-E.g. a csv file containing DHT data looks like this:
-[Screenshot 2020 02 06 At 21.44.31](../../../Desktop/Screenshot%202020-02-06%20at%2021.44.31.png)
 
 ### 4.2.2 Database Manager
 The method `createTables()` in the database manager class creates the needed tables to insert sensor data to ohm. The following tables are added:
@@ -147,15 +143,15 @@ Next it checks every sensor_type field if it contains a known sensor and calls t
 * References the geoobject id in the geoobject table.
 
 Supported and tested sensors are:
-PPD42
-DHT22
-SHT31
-HPM
-HTU21d
-DS180B20
-BME280
-BMP280
-BMP180
+* PPD42
+* DHT22
+* SHT31
+* HPM
+* HTU21d
+* DS180B20
+* BME280
+* BMP280
+* BMP180
 
 Currently not supported
-PMS series
+* PMS series
