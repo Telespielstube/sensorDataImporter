@@ -153,5 +153,5 @@ Supported and tested sensors are:
 * BMP280
 * BMP180
 
-Currently not supported
+Currently not supported:
 * PMS series
