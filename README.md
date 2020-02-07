@@ -41,19 +41,19 @@ This cleans up previous build artifacts and creates an executable fat jar file i
 ## 3.1 sensorDataDownloader.sh
 ##### !! Important
 In case you do not use the zsh shell you first need to change the first line from:\
-`!#/bin/zsh`
-to:\
-`!#/bin/your preferred shell environment`
-It is very simple to invoke the shell script. The basic syntax is:\
-`./sensorDataDownloader.sh`
+`!#/bin/zsh`<br\>
+to:<br\>
+`!#/bin/your preferred shell environment`<br\>
+It is very simple to invoke the shell script. The basic syntax is:<br\>
+`./sensorDataDownloader.sh`<br\>
 The shell script uses the standard folder ~/Documents/archive.luftdaten.info/ for downloading the archive.
-If you wish to choose your own download folder you need to add an argument like:\
-``./sensorDataDownloader.sh ~/Downloads/luftdaten``
+If you wish to choose your own download folder you need to add an argument like:<br\>
+``./sensorDataDownloader.sh ~/Downloads/luftdaten``<br\>
 
 For further information or script modifications edit the script.
 
 ### 3.1.1 Setting the up cron job
-If you wish to execute the shell script periodically, you need to setup a cron job first. Read more about cron jobs by typing at your shell prompt: 
+If you wish to execute the shell script periodically, you need to setup a cron job first. Read more about cron jobs by typing at your shell prompt:<br\>
 `man cron` 
 or go to [crontab.guru](https://crontab.guru) and use the simple and easy to use web-editor to shedule your job. 
 To open and edit/update your crontab file, type the following at your shell prompt:
