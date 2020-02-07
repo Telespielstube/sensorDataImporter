@@ -56,21 +56,21 @@ For further information or script modifications edit the script.
 If you wish to execute the shell script periodically, you need to setup a cron job first. Read more about cron jobs by typing at your shell prompt:  
 `man cron`  
 or go to [crontab.guru](https://crontab.guru) and use the simple and easy to use web-editor to shedule your job. 
-To open and edit/update your crontab file, type the following at your shell prompt:
-`crontab -e`
-This opens your prefered text editor (fx. vi, vim, nano), if you have not specified a cron job before, the file should be empty. Now, add your routine:
+To open and edit/update your crontab file, type the following at your shell prompt:  
+`crontab -e`  
+This opens your prefered text editor (fx. vi, vim, nano), if you have not specified a cron job before, the file should be empty. Now, add your routine.
 
 For example, if you would like to shedule a job for every week on monday at 10 a.m. the command would look like:\
-`0 10 * * 1 cd /User/marta && ./sensorDataDownloader.sh ~/Downloads/luftdaten` 
+`0 10 * * 1 cd /User/marta/LuftdatenImporter && ./sensorDataDownloader.sh ~/Downloads/luftdaten` 
 
-In short, the first fields means minute, hour, day of months, month, day of week followed by the command (in this example, changing into a folder and then running the shell script). 
+In short, the first fields means minute, hour, day of months, month, day of week followed by the command (in this example, changing to the LuftdatenImporter folder and then running the shell script with the path argument). 
 
 ## 3.2 LuftdatenImporter.jar
 To execute the Java application you need to add two paramteres from the command line:     
 `-i`    
-	+ path to the folder where the archive got downloaded.   
+path to the folder where the archive got downloaded.   
 `-u`  
-	+ path to folder where the extracted files should be unzipped.  
+path to folder where the extracted files should be unzipped.  
 e.g.  
 `java -jar LuftdatenImporter-1.0-jar-with-dependencies.jar -i ~/Documents/archive.luftdaten.info -u ~/extractedLuftdaten`
 
