@@ -41,14 +41,14 @@ This cleans up previous build artifacts and creates an executable fat jar file i
 ## 3.1 sensorDataDownloader.sh
 ##### !! Important
 In case you do not use the zsh shell you first need to change the first line from:\
-`!#/bin/zsh`<br\>
-to:<br\>
-`!#/bin/your preferred shell environment`<br\>
-It is very simple to invoke the shell script. The basic syntax is:<br\>
-`./sensorDataDownloader.sh`<br\>
+`!#/bin/zsh`  
+to:  
+`!#/bin/your preferred shell environment`  
+It is very simple to invoke the shell script. The basic syntax is:  
+`./sensorDataDownloader.sh`  
 The shell script uses the standard folder ~/Documents/archive.luftdaten.info/ for downloading the archive.
-If you wish to choose your own download folder you need to add an argument like:<br\>
-``./sensorDataDownloader.sh ~/Downloads/luftdaten``<br\>
+If you wish to choose your own download folder you need to add an argument like:  
+``./sensorDataDownloader.sh ~/Downloads/luftdaten``<br>
 
 For further information or script modifications edit the script.
 
