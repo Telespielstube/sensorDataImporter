@@ -53,7 +53,7 @@ If you wish to choose your own download folder you need to add an argument like:
 For further information or script modifications edit the script.
 
 ### 3.1.1 Setting the up cron job
-If you wish to execute the shell script on a regular basis(regularily), you need to setup a cron job first. Read more about cron jobs by typing at your shell prompt: 
+If you wish to execute the shell script periodically, you need to setup a cron job first. Read more about cron jobs by typing at your shell prompt: 
 `man cron` 
 or go to [crontab.guru](https://crontab.guru) and use the simple and easy to use web-editor to shedule your job. 
 To open and edit/update your crontab file, type the following at your shell prompt:
