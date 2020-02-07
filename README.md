@@ -35,7 +35,7 @@ SensorDataImporter can be built from sources using the repository on GitHub: htt
 ## 2.1 Building the Java application from source
 Go to your sensorDataImporter folder and type: 
 `mvn clean package`
-This cleans up previous build artifacts and creates an executable jar file in the `/target` subfolder. 
+This cleans up previous build artifacts and creates an executable fat jar file in the `/target` subfolder. 
 
 # 3. Invoking
 ## 3.1 sensorDataDownloader.sh
@@ -67,12 +67,12 @@ In short, the first fields means minute, hour, day of months, month, day of week
 
 ## 3.2 LuftdatenImporter.jar
  To execute the Java application you need to add two paramteres from the command line: 
- `-i` 
- 	path to the folder where the archive got downloaded. 
+ `-i`\ 
+ 	path to the folder where the archive got downloaded.\ 
  `-u`
- 	path to folder where the extracted files should be stored. 
-e.g.
-`java -jar LuftdatenImporter-1.0.jar -i ~/Downloads/luftdaten -u ~/Documents/extractedLuftdaten`
+ 	path to folder where the extracted files should be unzipped.\ 
+e.g.\
+`java -jar LuftdatenImporter-1.0-jar-with-dependencies.jar -i ~/Documents/archive.luftdaten.info -u ~/extractedLuftdaten`
 
 # 4. Functionality   
 ## 4.1 sensorDataDownloader.sh
